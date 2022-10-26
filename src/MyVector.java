@@ -163,18 +163,12 @@ public class MyVector <T> implements MyList {
         return subList;
     }
 
-    private static int compare(int x, int y) {
-        if (x > y) return 1;
-        else if (y > x) return -1;
-        return 0;
-    }
-
     @Override
     public void sort(){
         Object ob;
         for (int i = 0; i < this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
-                if (compare((int)arr[i] , (int) arr[j]) == -1) {
+                if ((int)arr[i] > (int) arr[j]) {
                     ob = arr[i];
                     arr[i] = arr[j];
                     arr[j] = ob;
