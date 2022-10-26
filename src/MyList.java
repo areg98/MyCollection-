@@ -22,5 +22,9 @@ public interface MyList <T> {
 
     void set(int index, T el);
 
-    Object clone();
+    T subList(int fromIndex, int toIndex);
+
+    T clone();
+
+    void sort();
 }

@@ -150,25 +150,41 @@ public class MyVector <T> implements MyList {
         return clone;
     }
 
-    public Object firstElement() {
-        try {
-            return arr[0];
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + "No Such Element Exception" + "\u001B[0m");
+    public Object subList(int fromIndex, int toIndex) {
+        MyVector<T> subList = new MyVector();
+        if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex ){
+            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
+            return null;
+        } else {
+            for (int i = 0; i < toIndex - fromIndex; i++) {
+                subList.add(arr[i]);
+            }
         }
-        return this;
+        return subList;
+    }
+
+    @Override
+    public void sort(){            // TODO: 10/26/2022 for this method we need to write method compareTo()
+        for (int i = 0; i < this.size(); i++) {
+            for (int j = 0; j < this.size(); j++) {
+                if ((int) arr[i] > (int) arr[j]) {
+                    arr[i] = (int)arr[i] + (int)arr[j];
+                    arr[j] = (int)arr[i] - (int)arr[j];
+                    arr[i] = (int)arr[i] + (int)arr[j];
+                }
+            }
+        }
+
+    }
+
+
+    public Object firstElement() {
+        return (this.arr != null)?arr[0]:null;
     }
 
     public Object lastElement() {
-        try {
-            return arr[size-1];
-        } catch (Exception e) {
-            System.out.println("\u001B[31m" + "No Such Element Exception" + "\u001B[0m");
-        }
-        return this;
+        return (this.arr != null)?arr[size-1]:null;
     }
-
-
 
 
 

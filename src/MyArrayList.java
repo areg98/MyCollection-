@@ -1,3 +1,5 @@
+import com.sun.jdi.Value;
+
 public class MyArrayList<T> implements MyList {
 
     private final int fullSize = 20000000;
@@ -9,6 +11,13 @@ public class MyArrayList<T> implements MyList {
         size = 0;
         temp = -1;
         this.arr1 = new Object[fullSize];
+    }
+
+    MyArrayList(T... el) {
+        MyArrayList<T> list = new MyArrayList();
+        for (T x : el) {
+            list.add(el);
+        }
     }
 
     public String toString() {
@@ -129,21 +138,51 @@ public class MyArrayList<T> implements MyList {
 
     @Override
     public void set(int index, Object el) {
-        if (index < 0 || index >= size){
+        if (index < 0 || index >= size) {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
-        }else {
+        } else {
             arr1[index] = el;
             arr[index] = el;
         }
     }
 
     @Override
-    public MyArrayList clone() {
+    public Object subList(int fromIndex, int toIndex) {
+        MyArrayList<T> subList = new MyArrayList();
+        if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex) {
+            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
+            return null;
+        } else {
+            for (int i = 0; i <= toIndex - fromIndex; i++) {
+                subList.add(arr[i]);
+            }
+        }
+        return subList;
+    }
+
+    @Override
+    public Object clone() {
         MyArrayList clone = new MyArrayList();
         for (int i = 0; i < size; i++) {
             clone.add(arr[i]);
         }
         return clone;
     }
+
+    @Override
+    public void sort(){  // TODO: 10/26/2022 for this method we need to write method compareTo() 
+        T ob;
+        for (int i = 0; i < this.size(); i++) {
+            for (int j = 0; j < this.size(); j++) {
+                if (1>0) {
+                    arr[i] = ((int)arr[i] + (int)arr[j]);
+                    arr[j] = (int)arr[i] - (int)arr[j];
+                    arr[i] = (int)arr[i] + (int)arr[j];
+                }
+            }
+        }
+
+    }
+
 }
