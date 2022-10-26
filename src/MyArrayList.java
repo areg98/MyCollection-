@@ -1,5 +1,3 @@
-import com.sun.jdi.Value;
-
 public class MyArrayList<T> implements MyList {
 
     private final int fullSize = 20000000;
@@ -170,15 +168,22 @@ public class MyArrayList<T> implements MyList {
         return clone;
     }
 
+
+    private static int compare(int x, int y) {
+        if (x > y) return 1;
+        else if (y > x) return -1;
+        return 0;
+    }
+
     @Override
-    public void sort(){  // TODO: 10/26/2022 for this method we need to write method compareTo() 
-        T ob;
+    public void sort(){
+        Object ob;
         for (int i = 0; i < this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
-                if (1>0) {
-                    arr[i] = ((int)arr[i] + (int)arr[j]);
-                    arr[j] = (int)arr[i] - (int)arr[j];
-                    arr[i] = (int)arr[i] + (int)arr[j];
+                if (compare((int)arr[i] , (int) arr[j]) == -1) {
+                   ob = arr[i];
+                   arr[i] = arr[j];
+                   arr[j] = ob;
                 }
             }
         }

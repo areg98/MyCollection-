@@ -14,14 +14,17 @@ public class Main {
 //            System.out.print(list.get(i) + " ");
 //        }
 //
-//        MyList<Integer> list1 = new MyArrayList();
-//        List<Integer> list2 = new ArrayList<>();
-//        for (int i = 1; i < 10; i++) {
-//            list1.add(i);
-//        }
-//        System.out.println(list1);
-//        System.out.println(list1.subList(0,8));
+        MyList<Integer> list1 = new MyArrayList();
+//        ArrayList<Integer> list1 = new ArrayList<>();
+        for (int i = 10; i > 0; i--) {
+            list1.add(i);
+        }
+        System.out.println(list1);
+        list1.sort();
+        System.out.println(list1);
 
+
+//        System.out.println(compareTo(list1.get(0), list1.get(1)));
 
 //        System.out.println(list1);
 //        System.out.println(list1.size());
@@ -32,13 +35,13 @@ public class Main {
 
 //        System.out.println("\n" + list1);
 
-        MyVector<Integer> vector = new MyVector<>();
+//        MyVector<Integer> vector = new MyVector<>();
 //        Vector<Integer> vector = new Vector<>();
-        vector.add(5);
-        vector.add(5);
-        vector.add(2);
-        vector.add(3);
-        System.out.println(vector);
+//        vector.add(5);
+//        vector.add(5);
+//        vector.add(2);
+//        vector.add(3);
+//        System.out.println(vector);
 //        vector.sort();
 
 //
