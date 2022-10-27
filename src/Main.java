@@ -16,12 +16,18 @@ public class Main {
 //
         MyList<Integer> list1 = new MyArrayList();
 //        ArrayList<Integer> list1 = new ArrayList<>();
-        for (int i = 10; i > 0; i--) {
-            list1.add(i);
-        }
+//        list1.add(true);
+        System.out.println(list1.add(5));
+//        list1.add();
+        System.out.println(list1.get(0));
+//        list1.sort();
         System.out.println(list1);
-        list1.sort();
-        System.out.println(list1);
+//        list1.constructorBuilder("s");
+//        list1.sort();
+//        System.out.println(list1);
+
+        List<Integer> list = new ArrayList<>();
+        list.add(5);
 
 
 //        System.out.println(compareTo(list1.get(0), list1.get(1)));
@@ -55,6 +61,7 @@ public class Main {
 //        }
 //        System.out.println("\n" + vector);
 //        System.out.println();
+
 
     }
 }

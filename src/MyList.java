@@ -1,5 +1,7 @@
 public interface MyList <T> {
 
+
+
     int size();
 
     boolean add(T el);

@@ -22,7 +22,7 @@ public class MyVector <T> implements MyList {
     }
 
     @Override
-    public int size() {
+    public synchronized int size() {
         return this.size;
     }
 
@@ -164,7 +164,7 @@ public class MyVector <T> implements MyList {
     }
 
     @Override
-    public void sort(){
+    public synchronized void sort(){
         Object ob;
         for (int i = 0; i < this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
