@@ -3,12 +3,12 @@ public class MyVector <T> implements MyList {
     private final int fullSize = 20000000;
     private int size;
     private int temp;
-    private Object[] arr, arr1;
+    private T[] arr, arr1;
 
     MyVector() {
         size = 0;
         temp = -1;
-        this.arr1 = new Object[fullSize];
+        this.arr1 = (T[]) new Object[fullSize];
     }
 
 
@@ -28,8 +28,8 @@ public class MyVector <T> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        this.arr = new Object[++size];
-        arr1[++temp] = el;
+        this.arr =(T[]) new Object[++size];
+        arr1[++temp] =(T) el;
         for (int i = 0; i < size; i++) {
             arr[i] = arr1[i];
         }
@@ -42,15 +42,15 @@ public class MyVector <T> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
-            this.arr = new Object[++size];
+            this.arr = (T[]) new Object[++size];
             for (int i = 0, j = 0; i < size; i++, j++) {
                 if (i == index) {
-                    this.arr[i] = el;
+                    this.arr[i] = (T) el;
                     i++;
                 }
                 arr[i] = arr1[j];
             }
-            this.arr1 = new Object[fullSize];
+            this.arr1 = (T[]) new Object[fullSize];
             this.temp++;
             for (int i = 0; i < size; i++) {
                 arr1[i] = arr[i];
@@ -66,14 +66,14 @@ public class MyVector <T> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
-            this.arr = new Object[--size];
+            this.arr = (T[]) new Object[--size];
             for (int i = 0, j = 0; i < size; i++, j++) {
                 if (i == index) {
                     j++;
                 }
                 arr[i] = arr1[j];
             }
-            this.arr1 = new Object[fullSize];
+            this.arr1 = (T[]) new Object[fullSize];
             this.temp--;
             for (int i = 0; i < size; i++) {
                 arr1[i] = arr[i];
@@ -103,8 +103,8 @@ public class MyVector <T> implements MyList {
     public void clear() {
         size = 0;
         temp = -1;
-        this.arr = new Object[size];
-        this.arr1 = new Object[fullSize];
+        this.arr = (T[]) new Object[size];
+        this.arr1 = (T[]) new Object[fullSize];
     }
 
     @Override
@@ -134,8 +134,8 @@ public class MyVector <T> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         }else {
-            arr1[index] = el;
-            arr[index] = el;
+            arr1[index] = (T) el;
+            arr[index] = (T) el;
         }
     }
 
@@ -171,7 +171,7 @@ public class MyVector <T> implements MyList {
                 if ((int)arr[i] > (int) arr[j]) {
                     ob = arr[i];
                     arr[i] = arr[j];
-                    arr[j] = ob;
+                    arr[j] = (T) ob;
                 }
             }
         }
