@@ -1,14 +1,17 @@
-public class MyVector <T> implements MyList {
+public class MyVector<T> implements MyList {
 
     private final int fullSize = 20000000;
     private int size;
     private int temp;
-    private T[] arr, arr1;
+    protected T[] arr, arr1;
 
-    MyVector() {
+    MyVector(T ...el) {
         size = 0;
         temp = -1;
         this.arr1 = (T[]) new Object[fullSize];
+        for (T x: el) {
+            add((T)x);
+        }
     }
 
 
@@ -28,8 +31,8 @@ public class MyVector <T> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        this.arr =(T[]) new Object[++size];
-        arr1[++temp] =(T) el;
+        this.arr = (T[]) new Object[++size];
+        arr1[++temp] = (T) el;
         for (int i = 0; i < size; i++) {
             arr[i] = arr1[i];
         }
@@ -130,15 +133,14 @@ public class MyVector <T> implements MyList {
 
     @Override
     public void set(int index, Object el) {
-        if (index < 0 || index >= size){
+        if (index < 0 || index >= size) {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
-        }else {
+        } else {
             arr1[index] = (T) el;
             arr[index] = (T) el;
         }
     }
-
 
 
     @Override
@@ -152,7 +154,7 @@ public class MyVector <T> implements MyList {
 
     public Object subList(int fromIndex, int toIndex) {
         MyVector<T> subList = new MyVector();
-        if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex ){
+        if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex) {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return null;
         } else {
@@ -164,31 +166,25 @@ public class MyVector <T> implements MyList {
     }
 
     @Override
-    public synchronized void sort(){
+    public synchronized void sort() {
         Object ob;
         for (int i = 0; i < this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
-                if ((int)arr[i] > (int) arr[j]) {
+                if ((int) arr[i] > (int) arr[j]) {
                     ob = arr[i];
                     arr[i] = arr[j];
                     arr[j] = (T) ob;
                 }
             }
         }
-
     }
 
 
     public Object firstElement() {
-        return (this.arr != null)?arr[0]:null;
+        return (this.arr != null) ? arr[0] : null;
     }
 
     public Object lastElement() {
-        return (this.arr != null)?arr[size-1]:null;
+        return (this.arr != null) ? arr[size - 1] : null;
     }
-
-
-
-
-
 }

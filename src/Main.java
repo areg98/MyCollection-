@@ -14,20 +14,24 @@ public class Main {
 //            System.out.print(list.get(i) + " ");
 //        }
 //
-        MyList<Integer> list1 = new MyArrayList();
+//        MyList<Integer> list1 = new MyArrayList();
 //        ArrayList<Integer> list1 = new ArrayList<>();
 //        list1.add(true);
-        System.out.println(list1.add(5));
+//        System.out.println(list1.add(5));
 //        list1.add();
-        System.out.println(list1.get(0));
+//        System.out.println(list1.get(0));
 //        list1.sort();
-        System.out.println(list1);
+//        System.out.println(list1);
 //        list1.constructorBuilder("s");
 //        list1.sort();
 //        System.out.println(list1);
 
-        List<Integer> list = new ArrayList<>();
-        list.add(5);
+        MyStack<String> a = new MyStack<>();
+        a.push("a");
+        a.push("b");
+        System.out.println(a.pop());
+//        System.out.println(a.pop());
+        System.out.println(a.get(1));
 
 
 //        System.out.println(compareTo(list1.get(0), list1.get(1)));
