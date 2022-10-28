@@ -1,19 +1,41 @@
+// ArrayList in Java has a get(int index) method. int is a signed 32 bit value,
+// with a maximum value of 2,147,483,647. that is 2 ^ 31
+// That is the largest possible value that can be accessed in an ArrayList
+// Our Array list max size is 2 ^ 24` , because of:
+// 1. Requested array size exceeds VM limit
+// 2. Java heap space
+
 public class MyArrayList<T extends Object> implements MyList {
 
-    private final Integer fullSize = 20000000;
+    private final Integer actualSize = 20000000;
     private int size;
     private int temp;
-    private T[] arr, arr1;
+    private T[] arr, container;
 
 
     MyArrayList(T ... el) {
         size = 0;
         temp = -1;
-        this.arr1 = (T[]) new Object[fullSize];
+        this.arr = (T[]) new Object[actualSize];
         for (T x: el) {
             add((T)x);
         }
     }
+
+    private void newSpace(){
+
+        container = (T[]) new Object[size];
+        for (int i = 0; i < container.length; i++) {
+            container[i] = arr[i];
+        }
+        this.arr = (T[]) new Object[actualSize * 2];
+        System.out.println(this.arr.length);
+        for (int i = 0; i <= arr.length; i++) {
+            this.arr[i] = this.container[i];
+        }
+        container = (T[]) new Object[0];
+    }
+
 
 
     public String toString() {
@@ -32,11 +54,11 @@ public class MyArrayList<T extends Object> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        this.arr = (T[]) new Object[++size];
-        arr1[++temp] = (T)el;
-        for (int i = 0; i < size; i++) {
-            arr[i] = arr1[i];
+        if (actualSize - size == 1){
+            newSpace();
         }
+        size++;
+        arr[++temp] = (T) el;
         return true;
     }
 
@@ -52,12 +74,12 @@ public class MyArrayList<T extends Object> implements MyList {
                     this.arr[i] = (T)el;
                     i++;
                 }
-                arr[i] = arr1[j];
+                arr[i] = container[j];
             }
-            this.arr1 =(T[]) new Object[fullSize];
+            this.container =(T[]) new Object[actualSize];
             this.temp++;
             for (int i = 0; i < size; i++) {
-                arr1[i] = arr[i];
+                container[i] = arr[i];
             }
         }
 
@@ -75,12 +97,12 @@ public class MyArrayList<T extends Object> implements MyList {
                 if (i == index) {
                     j++;
                 }
-                arr[i] = arr1[j];
+                arr[i] = container[j];
             }
-            this.arr1 = (T[]) new Object[fullSize];
+            this.container = (T[]) new Object[actualSize];
             this.temp--;
             for (int i = 0; i < size; i++) {
-                arr1[i] = arr[i];
+                container[i] = arr[i];
             }
         }
     }
@@ -88,6 +110,10 @@ public class MyArrayList<T extends Object> implements MyList {
     @Override
     public T get(int index) {
         try{
+            if (index < 0 || index > temp) {
+            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
+            System.exit(-1);
+        }
             return arr[index];
         } catch (Exception e){
             e.getCause().printStackTrace();
@@ -109,7 +135,7 @@ public class MyArrayList<T extends Object> implements MyList {
         size = 0;
         temp = -1;
         this.arr = (T[]) new Object[size];
-        this.arr1 = (T[]) new Object[fullSize];
+        this.container = (T[]) new Object[actualSize];
     }
 
     @Override
@@ -139,7 +165,7 @@ public class MyArrayList<T extends Object> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
-            arr1[index] = (T) el;
+            container[index] = (T) el;
             arr[index] = (T) el;
         }
     }
