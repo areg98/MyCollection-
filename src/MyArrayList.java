@@ -7,44 +7,48 @@
 
 public class MyArrayList<T extends Object> implements MyList {
 
-    private final Integer actualSize = 20000000;
+    private final Integer actualSize = 8;
     private int size;
     private int temp;
     private T[] arr, container;
 
 
-    MyArrayList(T ... el) {
+    MyArrayList(T... el) {
         size = 0;
         temp = -1;
         this.arr = (T[]) new Object[actualSize];
-        for (T x: el) {
-            add((T)x);
+        for (T x : el) {
+            add((T) x);
         }
     }
 
-    private void newSpace(){
+    private void newSpace() {
 
         container = (T[]) new Object[size];
         for (int i = 0; i < container.length; i++) {
             container[i] = arr[i];
         }
         this.arr = (T[]) new Object[actualSize * 2];
-        System.out.println(this.arr.length);
         for (int i = 0; i <= arr.length; i++) {
             this.arr[i] = this.container[i];
         }
-        container = (T[]) new Object[0];
+        container = null;
     }
 
 
-
     public String toString() {
-        String str = "[" + arr[0];
-        for (int i = 1; i < this.size; i++) {
-            str += ", " + arr[i];
+        try {
+            String str = "[" + arr[0];
+            for (int i = 1; i < this.size; i++) {
+                str += ", " + arr[i];
+            }
+            str += "]";
+            return str;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("\u001B[31m" + "List is empty" + "\u001B[0m");
         }
-        str += "]";
-        return str;
+        System.exit(-1);
+        return null;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class MyArrayList<T extends Object> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        if (actualSize - size == 1){
+        if (actualSize - size == 1) {
             newSpace();
         }
         size++;
@@ -68,22 +72,21 @@ public class MyArrayList<T extends Object> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
-            this.arr = (T[]) new Object[++size];
+            this.container = (T[]) new Object[++size];
             for (int i = 0, j = 0; i < size; i++, j++) {
                 if (i == index) {
-                    this.arr[i] = (T)el;
+                    this.container[i] = (T) el;
                     i++;
                 }
-                arr[i] = container[j];
+                container[i] = arr[j];
             }
-            this.container =(T[]) new Object[actualSize];
+            this.arr = (T[]) new Object[size];
             this.temp++;
             for (int i = 0; i < size; i++) {
-                container[i] = arr[i];
+                arr[i] = container[i];
             }
         }
-
-
+        this.container = null;
     }
 
     @Override
@@ -92,34 +95,29 @@ public class MyArrayList<T extends Object> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
-            this.arr = (T[]) new Object[--size];
+            this.container = (T[]) new Object[--size];
             for (int i = 0, j = 0; i < size; i++, j++) {
                 if (i == index) {
                     j++;
                 }
-                arr[i] = container[j];
+                container[i] = arr[j];
             }
-            this.container = (T[]) new Object[actualSize];
+            this.arr = (T[]) new Object[size];
             this.temp--;
             for (int i = 0; i < size; i++) {
-                container[i] = arr[i];
+                arr[i] = container[i];
             }
         }
+        this.container = null;
     }
 
     @Override
     public T get(int index) {
-        try{
             if (index < 0 || index > temp) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
-        }
+                System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
+                System.exit(-1);
+            }
             return arr[index];
-        } catch (Exception e){
-            e.getCause().printStackTrace();
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            return null;
-        }
     }
 
     @Override
@@ -135,7 +133,6 @@ public class MyArrayList<T extends Object> implements MyList {
         size = 0;
         temp = -1;
         this.arr = (T[]) new Object[size];
-        this.container = (T[]) new Object[actualSize];
     }
 
     @Override
@@ -165,7 +162,6 @@ public class MyArrayList<T extends Object> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
-            container[index] = (T) el;
             arr[index] = (T) el;
         }
     }
@@ -194,7 +190,7 @@ public class MyArrayList<T extends Object> implements MyList {
     }
 
     @Override
-    public void sort(){
+    public void sort() {
         if (this.arr == null) {
             System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
             return;
@@ -202,10 +198,10 @@ public class MyArrayList<T extends Object> implements MyList {
         Object ob;
         for (int i = 0; i < this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
-                if ((int)arr[i] < (int) arr[j]) {
-                   ob = arr[i];
-                   arr[i] = arr[j];
-                   arr[j] = (T) ob;
+                if ((int) arr[i] < (int) arr[j]) {
+                    ob = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = (T) ob;
                 }
             }
         }
