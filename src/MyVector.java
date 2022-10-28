@@ -65,10 +65,7 @@ public class MyVector<T> implements MyList {
 
     @Override
     public void add(int index, Object el) {
-        if(size > MAX_ARRAY_SIZE){
-            System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_ARRAY_SIZE + "\u001B[0m");
-        }
-        else if (index < 0 || index >= size) {
+        if (index < 0 || index >= size || size >= MAX_ARRAY_SIZE) {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
