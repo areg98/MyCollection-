@@ -5,9 +5,9 @@
 // 1. Requested array size exceeds VM limit
 // 2. Java heap space
 
-public class MyArrayList<T extends Object> implements MyList {
+public class MyArrayList<T> implements MyList {
 
-    private final int actualSize = 8;
+    private final int capacity = 8;
     private int size;
     private int temp;
     private T[] arr, container;
@@ -16,7 +16,7 @@ public class MyArrayList<T extends Object> implements MyList {
     MyArrayList(T... el) {
         size = 0;
         temp = -1;
-        this.arr = (T[]) new Object[actualSize];
+        this.arr = (T[]) new Object[capacity];
         for (T x : el) {
             add((T) x);
         }
@@ -28,7 +28,7 @@ public class MyArrayList<T extends Object> implements MyList {
         for (int i = 0; i < container.length; i++) {
             container[i] = arr[i];
         }
-        this.arr = (T[]) new Object[actualSize * 2];
+        this.arr = (T[]) new Object[capacity * 2];
         for (int i = 0; i <= arr.length; i++) {
             this.arr[i] = this.container[i];
         }
@@ -58,7 +58,7 @@ public class MyArrayList<T extends Object> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        if (actualSize - size == 1) {
+        if (capacity - size == 1) {
             newSpace();
         }
         size++;
@@ -132,7 +132,7 @@ public class MyArrayList<T extends Object> implements MyList {
     public void clear() {
         size = 0;
         temp = -1;
-        this.arr = (T[]) new Object[actualSize];
+        this.arr = (T[]) new Object[capacity];
     }
 
     @Override

@@ -3,7 +3,7 @@ public class MyVector<T> implements MyList {
     private final int actualSize = 8;
     private int size;
     private int temp;
-    protected T[] arr, container;
+    private T[] arr, container;
 
 
     MyVector(T... el) {

@@ -1,35 +1,35 @@
 public class MyStack<T> extends MyVector {
-    int tos;
 
     MyStack(T ...el) {
-        super();
-        tos = -1;
+        super(el);
     }
 
     void push(T el) {
-        if (tos == super.size())
-            System.out.println("is full");
-        else
-            super.add((T)el);
-        tos++;
+       super.add(el);
     }
 
     T pop() {
-        T result = null;
-        try{
-            if (tos < 0) {
-                System.out.println("is empty ");
-                return null;
-            } else{
-                result = (T) super.arr[tos];
-                super.remove(tos--);
-            }
-
-        }catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("\u001B[31m" + "Stack is Empty" + "\u001B[0m");
-        }
+        T result = (T) super.get(super.size()-1);
+        remove(super.size()-1);
         return result;
     }
+
+    boolean empty(){
+        return (size() == 0);
+    }
+
+    T peek(){
+        return (T) get(size()-1);
+    }
+
+
+    int search(T el){
+        for (int i = 0; i < size(); i++) {
+            if(get(i) == el) return i;
+        }
+        return -1;
+    }
+
 
 
 
