@@ -1,41 +1,61 @@
 public class MyVector<T> implements MyList {
 
-    private final int fullSize = 20000000;
+    private final int actualSize = 8;
     private int size;
     private int temp;
-    protected T[] arr, arr1;
+    protected T[] arr, container;
 
-    MyVector(T ...el) {
+
+    MyVector(T... el) {
         size = 0;
         temp = -1;
-        this.arr1 = (T[]) new Object[fullSize];
-        for (T x: el) {
-            add((T)x);
+        this.arr = (T[]) new Object[actualSize];
+        for (T x : el) {
+            add((T) x);
         }
+    }
+
+    private void newSpace() {
+
+        container = (T[]) new Object[size];
+        for (int i = 0; i < container.length; i++) {
+            container[i] = arr[i];
+        }
+        this.arr = (T[]) new Object[actualSize * 2];
+        for (int i = 0; i <= arr.length; i++) {
+            this.arr[i] = this.container[i];
+        }
+        container = null;
     }
 
 
     public String toString() {
-        String str = "[" + arr[0];
-        for (int i = 1; i < this.size; i++) {
-            str += ", " + arr[i];
+        try {
+            String str = "[" + arr[0];
+            for (int i = 1; i < this.size; i++) {
+                str += ", " + arr[i];
+            }
+            str += "]";
+            return str;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("\u001B[31m" + "List is empty" + "\u001B[0m");
         }
-        str += "]";
-        return str;
+        System.exit(-1);
+        return null;
     }
 
     @Override
-    public synchronized int size() {
+    public int size() {
         return this.size;
     }
 
     @Override
     public boolean add(Object el) {
-        this.arr = (T[]) new Object[++size];
-        arr1[++temp] = (T) el;
-        for (int i = 0; i < size; i++) {
-            arr[i] = arr1[i];
+        if (actualSize - size == 1) {
+            newSpace();
         }
+        size++;
+        arr[++temp] = (T) el;
         return true;
     }
 
@@ -45,22 +65,21 @@ public class MyVector<T> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
-            this.arr = (T[]) new Object[++size];
+            this.container = (T[]) new Object[++size];
             for (int i = 0, j = 0; i < size; i++, j++) {
                 if (i == index) {
-                    this.arr[i] = (T) el;
+                    this.container[i] = (T) el;
                     i++;
                 }
-                arr[i] = arr1[j];
+                container[i] = arr[j];
             }
-            this.arr1 = (T[]) new Object[fullSize];
+            this.arr = (T[]) new Object[size];
             this.temp++;
             for (int i = 0; i < size; i++) {
-                arr1[i] = arr[i];
+                arr[i] = container[i];
             }
         }
-
-
+        this.container = null;
     }
 
     @Override
@@ -69,29 +88,29 @@ public class MyVector<T> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
-            this.arr = (T[]) new Object[--size];
+            this.container = (T[]) new Object[--size];
             for (int i = 0, j = 0; i < size; i++, j++) {
                 if (i == index) {
                     j++;
                 }
-                arr[i] = arr1[j];
+                container[i] = arr[j];
             }
-            this.arr1 = (T[]) new Object[fullSize];
+            this.arr = (T[]) new Object[size];
             this.temp--;
             for (int i = 0; i < size; i++) {
-                arr1[i] = arr[i];
+                arr[i] = container[i];
             }
         }
+        this.container = null;
     }
 
     @Override
-    public Object get(int index) {
-        if (index < 0 || index > size) {
+    public T get(int index) {
+        if (index < 0 || index > temp) {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            return null;
-        } else {
-            return arr[index];
+            System.exit(-1);
         }
+        return arr[index];
     }
 
     @Override
@@ -106,8 +125,7 @@ public class MyVector<T> implements MyList {
     public void clear() {
         size = 0;
         temp = -1;
-        this.arr = (T[]) new Object[size];
-        this.arr1 = (T[]) new Object[fullSize];
+        this.arr = (T[]) new Object[actualSize];
     }
 
     @Override
@@ -137,28 +155,18 @@ public class MyVector<T> implements MyList {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
-            arr1[index] = (T) el;
             arr[index] = (T) el;
         }
     }
 
-
     @Override
-    public MyVector clone() {
-        MyVector clone = new MyVector();
-        for (int i = 0; i < size; i++) {
-            clone.add(arr[i]);
-        }
-        return clone;
-    }
-
     public Object subList(int fromIndex, int toIndex) {
-        MyVector<T> subList = new MyVector();
+        MyArrayList<T> subList = new MyArrayList();
         if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex) {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return null;
         } else {
-            for (int i = 0; i < toIndex - fromIndex; i++) {
+            for (int i = 0; i <= toIndex - fromIndex; i++) {
                 subList.add(arr[i]);
             }
         }
@@ -166,11 +174,24 @@ public class MyVector<T> implements MyList {
     }
 
     @Override
-    public synchronized void sort() {
+    public Object clone() {
+        MyArrayList clone = new MyArrayList();
+        for (int i = 0; i < size; i++) {
+            clone.add(arr[i]);
+        }
+        return clone;
+    }
+
+    @Override
+    public void sort() {
+        if (this.arr == null) {
+            System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
+            return;
+        }
         Object ob;
         for (int i = 0; i < this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
-                if ((int) arr[i] > (int) arr[j]) {
+                if ((int) arr[i] < (int) arr[j]) {
                     ob = arr[i];
                     arr[i] = arr[j];
                     arr[j] = (T) ob;

@@ -6,11 +6,6 @@ public class MyStack<T> extends MyVector {
         tos = -1;
     }
 
-//    MyStack() {
-//        super = (T[]) new Object[2];
-//        tos = -1;
-//    }
-
     void push(T el) {
         if (tos == super.size())
             System.out.println("is full");

@@ -7,7 +7,7 @@
 
 public class MyArrayList<T extends Object> implements MyList {
 
-    private final Integer actualSize = 8;
+    private final int actualSize = 8;
     private int size;
     private int temp;
     private T[] arr, container;
@@ -132,7 +132,7 @@ public class MyArrayList<T extends Object> implements MyList {
     public void clear() {
         size = 0;
         temp = -1;
-        this.arr = (T[]) new Object[size];
+        this.arr = (T[]) new Object[actualSize];
     }
 
     @Override
