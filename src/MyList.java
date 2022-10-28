@@ -3,7 +3,6 @@
 public interface MyList <T> {
 
 
-
     int size();
 
     boolean add(T el);
@@ -11,6 +10,8 @@ public interface MyList <T> {
     void add(int index, T el);
 
     void remove(int index);
+
+    void removeRange(int fromIndex, int toIndex);
 
     T get(int index);
 

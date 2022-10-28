@@ -4,6 +4,7 @@ public class MyVector<T> implements MyList {
     private int size;
     private int temp;
     private T[] arr, container;
+    private static final int MAX_ARRAY_SIZE = 2147483639;
 
 
     MyVector(T... el) {
@@ -51,7 +52,10 @@ public class MyVector<T> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        if (actualSize - size == 1) {
+        if(size > MAX_ARRAY_SIZE){
+            System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_ARRAY_SIZE + "\u001B[0m");
+        }
+        else if (actualSize - size == 1) {
             newSpace();
         }
         size++;
@@ -61,7 +65,10 @@ public class MyVector<T> implements MyList {
 
     @Override
     public void add(int index, Object el) {
-        if (index < 0 || index >= size) {
+        if(size > MAX_ARRAY_SIZE){
+            System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_ARRAY_SIZE + "\u001B[0m");
+        }
+        else if (index < 0 || index >= size) {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             return;
         } else {
@@ -102,6 +109,26 @@ public class MyVector<T> implements MyList {
             }
         }
         this.container = null;
+    }
+
+    @Override
+    public void removeRange(int fromIndex, int toIndex) {
+        if(fromIndex > toIndex){
+            System.out.println("\u001B[31m" + "Array fromIndex can't be greater than toIndex" + "\u001B[0m");
+        }
+        else {
+            this.container =(T[]) new Object[size = size-(toIndex-fromIndex)];
+            for (int i = 0, j=0; i < size; i++, j++) {
+                if ((j >= fromIndex && j < toIndex)) {
+                    j+=(toIndex-fromIndex);
+                }  container[i] = arr[j];
+            }
+            this.arr =(T[]) new Object[actualSize];
+            temp=temp-(toIndex-fromIndex);
+            for (int i = 0; i < size; i++) {
+                arr[i]=container[i];
+            }
+        }
     }
 
     @Override
