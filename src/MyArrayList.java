@@ -1,7 +1,7 @@
 // ArrayList in Java has a get(int index) method. int is a signed 32 bit value,
 // with a maximum value of 2,147,483,647. that is 2 ^ 31
 // That is the largest possible value that can be accessed in an ArrayList
-// Our Array list max size is 2 ^ 24 , because of:
+// Our Array list max size is 2 ^ 26 , because of:
 // 1. Requested array size exceeds VM limit
 // 2. Java heap space
 
@@ -11,7 +11,7 @@ public class MyArrayList<T> implements MyList {
     private int size;
     private int temp;
     private T[] arr, container;
-    private static final int MAX_ARRAY_SIZE = 2147483639;
+    private static final int MAX_ARRAY_SIZE = 67108864;
 
 
     MyArrayList(T... el) {
@@ -59,7 +59,7 @@ public class MyArrayList<T> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        if (size > MAX_ARRAY_SIZE) {
+        if (size >= MAX_ARRAY_SIZE) {
             System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_ARRAY_SIZE + "\u001B[0m");
         } else if (capacity - size == 1) {
             newSpace();
