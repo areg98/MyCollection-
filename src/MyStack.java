@@ -23,6 +23,8 @@ public class MyStack<T> extends MyVector {
     }
 
 
+
+
     int search(T el){
         for (int i = 0; i < super.size(); i++) {
             if(super.get(i) == el) return i;
