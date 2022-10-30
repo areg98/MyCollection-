@@ -1,6 +1,12 @@
 public class Main {
     public static void main(String[] args) {
         MyList<Integer> list = new MyArrayList<>();
+//        int i = 0;
+//        while (true){
+//            list.add(i);
+//            System.out.println(list.get(i));
+//            i++;
+//        }
         list.add(1);
         list.add(51);
         list.add(13);
@@ -16,8 +22,6 @@ public class Main {
         System.out.println(list);
         list.removeRange(1, 3);
         System.out.println(list);
-
-
         MyStack<Integer> stck = new MyStack<>(5, 4, 7);
         stck.push(5);
         System.out.println(stck.empty());
