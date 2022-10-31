@@ -1,14 +1,15 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
-    MyList<String> list = new MyArrayList<>();
-    list.add("a");
-    list.add("c");
-    list.add("d");
-    list.add("b");
-//    list.sort();
+        MyList<Integer> list = new MyArrayList<>();
+        list.add(1);
+        list.add(51);
+        list.add(13);
+        list.add(4);
+        list.add(8);
+        list.add(7);
+        list.add(21);
+        System.out.println(list.get(0));
+        list.set(1, 8);
         System.out.println(list);
         String a = "a";
         System.out.println("a".concat("a"));

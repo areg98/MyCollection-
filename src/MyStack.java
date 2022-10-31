@@ -10,22 +10,24 @@ public class MyStack<T> extends MyVector {
 
     T pop() {
         T result = (T) super.get(super.size()-1);
-        remove(super.size()-1);
+        super.remove(super.size()-1);
         return result;
     }
 
     boolean empty(){
-        return (size() == 0);
+        return (super.size() == 0);
     }
 
     T peek(){
-        return (T) get(size()-1);
+        return (T) super.get(super.size()-1);
     }
 
 
+
+
     int search(T el){
-        for (int i = 0; i < size(); i++) {
-            if(get(i) == el) return i;
+        for (int i = 0; i < super.size(); i++) {
+            if(super.get(i) == el) return i;
         }
         return -1;
     }
