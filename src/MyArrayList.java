@@ -113,11 +113,11 @@ public class MyArrayList<T> implements MyList {
 
     @Override
     public T get(int index) {
-            if (index < 0 || index > temp) {
-                System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-                System.exit(-1);
-            }
-            return arr[index];
+        if (index < 0 || index > temp) {
+            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
+            System.exit(-1);
+        }
+        return arr[index];
     }
 
     @Override
