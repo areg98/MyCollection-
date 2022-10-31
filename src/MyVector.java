@@ -4,7 +4,7 @@ public class MyVector<T> implements MyList {
     private int size;
     private int temp;
     private T[] arr, container;
-    private static final int MAX_ARRAY_SIZE = 2147483639;
+    private static final int MAX_ARRAY_SIZE = 67108864;
 
 
     MyVector(T... el) {
