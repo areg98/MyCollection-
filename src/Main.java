@@ -8,7 +8,8 @@ public class Main {
         list.add(8);
         list.add(7);
         list.add(21);
-        System.out.println(list);
+        System.out.println(list.subList(45,15));
+
         System.out.println(list.get(0));
         list.set(1, 8);
         System.out.println(list);
