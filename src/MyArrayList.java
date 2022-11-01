@@ -74,25 +74,6 @@ public class MyArrayList<T> implements MyList {
 
     @Override
     public void add(int index, Object el) {
-//        try {
-//            this.container = (T[]) new Object[++size];
-//            for (int i = 0; i < index; i++) {
-//                this.container[i] = arr[i];
-//            }
-//            this.container[index] = (T) el;
-//            for (int i = index + 1; i < size; i++) {
-//                this.container[i] = arr[i - 1];
-//            }
-//            this.arr = (T[]) new Object[size];
-//            this.temp++;
-//            for (int i = 0; i < size; i++) {
-//                arr[i] = container[i];
-//            }
-//            this.container = null;
-//        } catch (Exception e) {
-//            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-//            System.exit(-1);
-//        }
         try {
             if (index >= size) throw new ArrayIndexOutOfBoundsException();
             T ob;
