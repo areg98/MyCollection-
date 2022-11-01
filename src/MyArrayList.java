@@ -129,6 +129,7 @@ public class MyArrayList<T> implements MyList {
 //            System.exit(-1);
 //        }
         try {
+            if (fromIndex >= toIndex || toIndex > size) throw new ArrayIndexOutOfBoundsException();
             T ob;
             size -= toIndex - fromIndex;
             for (int i = 0; i <= toIndex - fromIndex; i++) {
@@ -139,9 +140,6 @@ public class MyArrayList<T> implements MyList {
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array fromIndex can't be greater than toIndex" + "\u001B[0m");
-            System.exit(-1);
-        } catch (NegativeArraySizeException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception55" + "\u001B[0m");
             System.exit(-1);
         }
 

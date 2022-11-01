@@ -10,7 +10,8 @@ public class Main {
         list.add(21);
         list.add(21);
         System.out.println(list);
-        list.removeRange(1,4);
+        System.out.println(list.size());
+        list.removeRange(1,5);
         System.out.println(list);
     }
 }
