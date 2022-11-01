@@ -49,7 +49,7 @@ public class MyArrayList<T> implements MyList {
             str += "]";
             return str;
         } catch (Exception e) {
-            System.out.println("\u001B[31m" + "Can't cast to String " + "\u001B[0m");
+            System.out.println("\u001B[31m" + "Can't cast to String" + "\u001B[0m");
             System.exit(-1);
         }
         return null;
@@ -74,25 +74,6 @@ public class MyArrayList<T> implements MyList {
 
     @Override
     public void add(int index, Object el) {
-//        try {
-//            this.container = (T[]) new Object[++size];
-//            for (int i = 0; i < index; i++) {
-//                this.container[i] = arr[i];
-//            }
-//            this.container[index] = (T) el;
-//            for (int i = index + 1; i < size; i++) {
-//                this.container[i] = arr[i - 1];
-//            }
-//            this.arr = (T[]) new Object[size];
-//            this.temp++;
-//            for (int i = 0; i < size; i++) {
-//                arr[i] = container[i];
-//            }
-//            this.container = null;
-//        } catch (Exception e) {
-//            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-//            System.exit(-1);
-//        }
         try {
             if (index >= size) throw new ArrayIndexOutOfBoundsException();
             T ob;
@@ -111,19 +92,14 @@ public class MyArrayList<T> implements MyList {
     @Override
     public void remove(int index) {
         try {
-            this.container = (T[]) new Object[--size];
-            for (int i = 0; i < index; i++) {
-                this.container[i] = arr[i];
+           arr[index] = null;
+           size--;
+            T ob;
+            for (int i = index; i <= size; i++) {
+                ob = arr[i + 1];
+                arr[i + 1] = arr[i];
+                arr[i] = (T) ob;
             }
-            for (int i = index + 1; i < arr.length - 1; i++) {
-                this.container[i - 1] = arr[i];
-            }
-            this.arr = (T[]) new Object[size];
-            this.temp--;
-            for (int i = 0; i < size; i++) {
-                arr[i] = container[i];
-            }
-            this.container = null;
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             System.exit(-1);
@@ -132,18 +108,34 @@ public class MyArrayList<T> implements MyList {
 
     @Override
     public void removeRange(int fromIndex, int toIndex) {
+//        try {
+//            this.container = (T[]) new Object[size = size - (toIndex - fromIndex)];
+//            for (int i = 0; i < fromIndex; i++) {
+//                container[i] = arr[i];
+//            }
+//            for (int i = toIndex; i < size + (toIndex - fromIndex); i++) {
+//                container[i - (toIndex - fromIndex)] = arr[i];
+//            }
+//            this.arr = (T[]) new Object[size];
+//            temp = temp - (toIndex - fromIndex);
+//            for (int i = 0; i < size; i++) {
+//                arr[i] = container[i];
+//            }
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            System.out.println("\u001B[31m" + "Array fromIndex can't be greater than toIndex" + "\u001B[0m");
+//            System.exit(-1);
+//        } catch (NegativeArraySizeException e) {
+//            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception55" + "\u001B[0m");
+//            System.exit(-1);
+//        }
         try {
-            this.container = (T[]) new Object[size = size - (toIndex - fromIndex)];
-            for (int i = 0; i < fromIndex; i++) {
-                container[i] = arr[i];
-            }
-            for (int i = toIndex; i < size + (toIndex - fromIndex); i++) {
-                container[i - (toIndex - fromIndex)] = arr[i];
-            }
-            this.arr = (T[]) new Object[size];
-            temp = temp - (toIndex - fromIndex);
-            for (int i = 0; i < size; i++) {
-                arr[i] = container[i];
+            T ob;
+            size -= toIndex - fromIndex;
+            for (int i = 0; i <= toIndex - fromIndex; i++) {
+                ob = arr[fromIndex+i];
+                arr[fromIndex+i] = arr[toIndex+i];
+                arr[toIndex+i] = (T) ob;
+                arr[toIndex+i] = null;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array fromIndex can't be greater than toIndex" + "\u001B[0m");
