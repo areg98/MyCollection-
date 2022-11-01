@@ -8,11 +8,20 @@ public class Main {
         list.add(8);
         list.add(7);
         list.add(21);
-        System.out.println(list.get(0));
-        list.set(1, 8);
+        list.add(21);
+//        list.add(21);
+//        System.out.println(list.size());
+
+//        System.out.println(list.clone());
         System.out.println(list);
-        String a = "a";
-        System.out.println("a".concat("a"));
+        list.add(1,123);
+        System.out.println(list);
+        list.add(0,123);
+        System.out.println(list);
+        System.out.println(list.size());
+        list.add(-1,0);
+        System.out.println(list);
+
 //    list.add(1);
 //    list.add(5);
 //    list.add(3);
