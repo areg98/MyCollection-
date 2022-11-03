@@ -229,13 +229,13 @@ public class MyVector<T> implements MyList {
             System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
             return;
         }
-        Object ob;
+        T ob;
         for (int i = 0; i < this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
-                if ((int) arr[i] < (int) arr[j]) {
+                if (arr[i].toString().compareTo(arr[j].toString()) < 0) {
                     ob = arr[i];
                     arr[i] = arr[j];
-                    arr[j] = (T) ob;
+                    arr[j] = ob;
                 }
             }
         }
