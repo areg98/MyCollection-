@@ -216,9 +216,9 @@ public class MyArrayList<T> implements MyList {
 
     @Override
     public void sort() {
-        if (this.arr == null) {
+        if (this.arr[0] == null) {
             System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
-            return;
+            System.exit(-1);
         }
         T ob;
         for (int i = 0; i < this.size(); i++) {
