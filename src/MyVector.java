@@ -88,6 +88,14 @@ public class MyVector<T> implements MyList {
     }
 
     @Override
+    public void addAll(MyList list) {
+        for (int i = 0; i < list.size(); i++) {
+            this.add(list.get(i));
+        }
+    }
+
+
+    @Override
     public void remove(int index) {
         try {
             this.container = (T[]) new Object[--size];

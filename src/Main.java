@@ -1,18 +1,23 @@
 public class Main {
     public static void main(String[] args) {
-        MyList<Integer> list = new MyArrayList<>();
-        list.add(1);
-        list.add(51);
-        list.add(13);
-        list.add(4);
-        list.add(8);
-        list.add(7);
-        list.add(21);
-        list.add(21);
-        System.out.println(list);
-        System.out.println(list.size());
-//        list.remove(1);
-        list.removeRange(1,5);
-        System.out.println(list);
+        MyList<String> list = new MyArrayList<>();
+        list.add("apple");
+        list.add("banana");
+        list.add("apple");
+        MyList<Integer> list1 = new MyArrayList<>();
+        list1.add(2);
+        list1.add(4);
+        list1.add(1);
+        list1.add(3);
+        list1.add(5);
+        System.out.println("list: " + list);
+        System.out.println("list1:" + list1);
+        System.out.println("_____________________________");
+        list.sort();
+        list1.sort();
+        System.out.println("list:" + list);
+        System.out.println("list1: " + list1);
+
+
     }
 }

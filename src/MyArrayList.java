@@ -55,6 +55,8 @@ public class MyArrayList<T> implements MyList {
         return null;
     }
 
+
+
     @Override
     public int size() {
         return this.size;
@@ -86,6 +88,12 @@ public class MyArrayList<T> implements MyList {
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
             System.exit(-1);
+        }
+    }
+
+    public void addAll(MyList list){
+        for (int i = 0; i < list.size(); i++) {
+            this.add(list.get(i));
         }
     }
 
@@ -197,7 +205,7 @@ public class MyArrayList<T> implements MyList {
     }
 
     @Override
-    public Object clone() {
+    public MyArrayList clone() {
         MyArrayList clone = new MyArrayList();
         for (int i = 0; i < size; i++) {
             clone.add(arr[i]);
@@ -205,19 +213,20 @@ public class MyArrayList<T> implements MyList {
         return clone;
     }
 
+
     @Override
     public void sort() {
         if (this.arr == null) {
             System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
             return;
         }
-        Object ob;
+        T ob;
         for (int i = 0; i < this.size(); i++) {
             for (int j = 0; j < this.size(); j++) {
-                if ((int) arr[i] < (int) arr[j]) {
+                if (arr[i].toString().compareTo(arr[j].toString()) < 0) {
                     ob = arr[i];
                     arr[i] = arr[j];
-                    arr[j] = (T) ob;
+                    arr[j] = ob;
                 }
             }
         }
