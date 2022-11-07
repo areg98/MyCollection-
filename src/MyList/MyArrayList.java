@@ -5,6 +5,8 @@
 // 1. Requested array size exceeds VM limit
 // 2. Java heap space
 
+package MyList;
+
 public class MyArrayList<T> implements MyList {
 
     private int capacity = 8;
@@ -14,7 +16,7 @@ public class MyArrayList<T> implements MyList {
     private static final int MAX_ARRAY_SIZE = 67108864;
 
 
-    MyArrayList(T... el) {
+    public MyArrayList(T... el) {
         size = 0;
         temp = -1;
         this.arr = (T[]) new Object[capacity];
@@ -54,8 +56,6 @@ public class MyArrayList<T> implements MyList {
         }
         return null;
     }
-
-
 
     @Override
     public int size() {
@@ -130,7 +130,6 @@ public class MyArrayList<T> implements MyList {
             System.out.println("\u001B[31m" + "Array fromIndex can't be greater than toIndex" + "\u001B[0m");
             System.exit(-1);
         }
-
     }
 
     @Override
@@ -212,7 +211,6 @@ public class MyArrayList<T> implements MyList {
         }
         return clone;
     }
-
 
     @Override
     public void sort() {

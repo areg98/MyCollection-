@@ -1,3 +1,7 @@
+package MyList;
+
+import MyList.MyList;
+
 public class MyVector<T> implements MyList {
 
     private final int capacity = 8;
