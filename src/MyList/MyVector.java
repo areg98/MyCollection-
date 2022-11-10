@@ -45,8 +45,7 @@ public class MyVector<T> implements MyList {
             str += "]";
             return str;
         } catch (Exception e) {
-            System.out.println("\u001B[31m" + "Can't cast to String " + "\u001B[0m");
-            System.exit(-1);
+           e.printStackTrace();
         }
         return null;
     }
@@ -86,8 +85,7 @@ public class MyVector<T> implements MyList {
             }
             this.container = null;
         } catch (Exception e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
+        e.printStackTrace();
         }
     }
 
@@ -116,34 +114,25 @@ public class MyVector<T> implements MyList {
             }
             this.container = null;
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
+            e.printStackTrace();
         }
     }
 
     @Override
     public void removeRange(int fromIndex, int toIndex) {
         try {
-            this.container = (T[]) new Object[size = size - (toIndex - fromIndex)];
-            for (int i = 0; i < fromIndex; i++) {
-                container[i] = arr[i];
-            }
-            for (int i = toIndex; i < size + (toIndex - fromIndex); i++) {
-                container[i - (toIndex - fromIndex)] = arr[i];
-            }
-            this.arr = (T[]) new Object[size];
-            temp = temp - (toIndex - fromIndex);
-            for (int i = 0; i < size; i++) {
-                arr[i] = container[i];
+            if (fromIndex >= toIndex || toIndex > size) throw new ArrayIndexOutOfBoundsException();
+            T ob;
+            size -= toIndex - fromIndex;
+            for (int i = 0; i <= toIndex - fromIndex; i++) {
+                ob = arr[fromIndex+i];
+                arr[fromIndex+i] = arr[toIndex+i];
+                arr[toIndex+i] = (T) ob;
+                arr[toIndex+i] = null;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array fromIndex can't be greater than toIndex" + "\u001B[0m");
-            System.exit(-1);
-        } catch (NegativeArraySizeException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception55" + "\u001B[0m");
-            System.exit(-1);
+            e.printStackTrace();
         }
-
     }
 
     @Override
@@ -151,8 +140,7 @@ public class MyVector<T> implements MyList {
         try {
             return arr[index];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
+            e.printStackTrace();
         }
         return null;
     }
@@ -198,8 +186,7 @@ public class MyVector<T> implements MyList {
         try {
             arr[index] = (T) el;
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
+            e.printStackTrace();
         }
     }
 
@@ -211,8 +198,7 @@ public class MyVector<T> implements MyList {
                 subList.add(arr[i]);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
+            e.printStackTrace();
         }
 
         return subList;

@@ -34,7 +34,4 @@ public class MyStack<T> extends MyVector {
         return -1;
     }
 
-
-
-
 }

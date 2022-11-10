@@ -4,12 +4,13 @@ public class MyString {
 
     private char[] array;
     private int size;
+    public static int a;
 
-    public MyString(char[] array) {
-        this.size = array.length;
+    public MyString(char ...str){
+        this.size = str.length;
         this.array = new char[size];
         for (int i = 0; i < size; i++) {
-            this.array[i] = array[i];
+            this.array[i] = str[i];
         }
     }
 
@@ -17,6 +18,7 @@ public class MyString {
     public String toString(){
         return String.valueOf(array);
     }
+
 
 
     public char charAt(int index) {

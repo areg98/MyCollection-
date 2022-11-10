@@ -51,8 +51,7 @@ public class MyArrayList<T> implements MyList {
             str += "]";
             return str;
         } catch (Exception e) {
-            System.out.println("\u001B[31m" + "Can't cast to String" + "\u001B[0m");
-            System.exit(-1);
+            e.printStackTrace();
         }
         return null;
     }
@@ -66,6 +65,7 @@ public class MyArrayList<T> implements MyList {
     public boolean add(Object el) {
         if (size >= MAX_ARRAY_SIZE) {
             System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_ARRAY_SIZE + "\u001B[0m");
+            return false;
         } else if (capacity - size == 1) {
             newSpace();
         }
@@ -86,8 +86,7 @@ public class MyArrayList<T> implements MyList {
                 arr[i] = (T) ob;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
+            e.printStackTrace();
         }
     }
 
@@ -109,9 +108,8 @@ public class MyArrayList<T> implements MyList {
                 arr[i] = (T) ob;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
-        }
+            e.printStackTrace();
+             }
     }
 
     @Override
@@ -127,8 +125,7 @@ public class MyArrayList<T> implements MyList {
                 arr[toIndex+i] = null;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array fromIndex can't be greater than toIndex" + "\u001B[0m");
-            System.exit(-1);
+            e.printStackTrace();
         }
     }
 
@@ -137,8 +134,7 @@ public class MyArrayList<T> implements MyList {
         try {
             return arr[index];
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
+           e.printStackTrace();
         }
         return null;
     }
@@ -184,8 +180,7 @@ public class MyArrayList<T> implements MyList {
         try {
             arr[index] = (T) el;
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
+           e.printStackTrace();
         }
     }
 
@@ -197,8 +192,7 @@ public class MyArrayList<T> implements MyList {
                 subList.add(arr[i]);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array Index Out Of Bounds Exception" + "\u001B[0m");
-            System.exit(-1);
+            e.printStackTrace();
         }
         return subList;
     }
@@ -216,7 +210,6 @@ public class MyArrayList<T> implements MyList {
     public void sort() {
         if (this.arr[0] == null) {
             System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
-            System.exit(-1);
         }
         T ob;
         for (int i = 0; i < this.size(); i++) {
