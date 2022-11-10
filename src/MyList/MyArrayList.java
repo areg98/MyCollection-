@@ -90,7 +90,7 @@ public class MyArrayList<T> implements MyList {
         }
     }
 
-    public void addAll(MyList list){
+    public void addAll(MyList list) {
         for (int i = 0; i < list.size(); i++) {
             this.add(list.get(i));
         }
@@ -101,6 +101,7 @@ public class MyArrayList<T> implements MyList {
         try {
             arr[index] = null;
             size--;
+            temp--;
             T ob;
             for (int i = index; i <= size; i++) {
                 ob = arr[i + 1];
@@ -109,7 +110,7 @@ public class MyArrayList<T> implements MyList {
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
-             }
+        }
     }
 
     @Override
@@ -118,11 +119,12 @@ public class MyArrayList<T> implements MyList {
             if (fromIndex >= toIndex || toIndex > size) throw new ArrayIndexOutOfBoundsException();
             T ob;
             size -= toIndex - fromIndex;
+            temp -= toIndex - fromIndex;
             for (int i = 0; i <= toIndex - fromIndex; i++) {
-                ob = arr[fromIndex+i];
-                arr[fromIndex+i] = arr[toIndex+i];
-                arr[toIndex+i] = (T) ob;
-                arr[toIndex+i] = null;
+                ob = arr[fromIndex + i];
+                arr[fromIndex + i] = arr[toIndex + i];
+                arr[toIndex + i] = (T) ob;
+                arr[toIndex + i] = null;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -134,7 +136,7 @@ public class MyArrayList<T> implements MyList {
         try {
             return arr[index];
         } catch (ArrayIndexOutOfBoundsException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
         return null;
     }
@@ -180,13 +182,13 @@ public class MyArrayList<T> implements MyList {
         try {
             arr[index] = (T) el;
         } catch (ArrayIndexOutOfBoundsException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     @Override
-    public Object subList(int fromIndex, int toIndex) {
-        MyArrayList<T> subList = new MyArrayList();
+    public MyList subList(int fromIndex, int toIndex) {
+        MyList<T> subList = new MyArrayList();
         try {
             for (int i = 0; i <= toIndex - fromIndex; i++) {
                 subList.add(arr[i]);
@@ -198,8 +200,8 @@ public class MyArrayList<T> implements MyList {
     }
 
     @Override
-    public MyArrayList clone() {
-        MyArrayList clone = new MyArrayList();
+    public MyList clone() {
+        MyList<T> clone = new MyArrayList();
         for (int i = 0; i < size; i++) {
             clone.add(arr[i]);
         }

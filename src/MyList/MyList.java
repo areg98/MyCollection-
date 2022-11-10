@@ -29,9 +29,9 @@ public interface MyList <T> {
 
     void set(int index, T el);
 
-    T subList(int fromIndex, int toIndex);
+    MyList subList(int fromIndex, int toIndex);
 
-    T clone();
+    MyList clone();
 
     void sort();
 }

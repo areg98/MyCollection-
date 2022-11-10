@@ -1,7 +1,5 @@
 package MyList;
 
-import MyList.MyList;
-
 
 public class MyVector<T> implements MyList {
 
@@ -12,7 +10,7 @@ public class MyVector<T> implements MyList {
     private static final int MAX_ARRAY_SIZE = 67108864;
 
 
-    MyVector(T... el) {
+    public MyVector(T... el) {
         size = 0;
         temp = -1;
         this.arr = (T[]) new Object[capacity];
@@ -46,7 +44,7 @@ public class MyVector<T> implements MyList {
             str += "]";
             return str;
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
         return null;
     }
@@ -77,19 +75,12 @@ public class MyVector<T> implements MyList {
             for (int i = size - 2; i >= index; i--) {
                 ob = arr[i + 1];
                 arr[i + 1] = arr[i];
-                arr[i] = (T) ob;
+                arr[i] = ob;
             }
-            this.arr = (T[]) new Object[size];
-            this.temp++;
-            for (int i = 0; i < size; i++) {
-                arr[i] = container[i];
-            }
-            this.container = null;
         } catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
     }
-
 
 
     @Override
@@ -103,19 +94,15 @@ public class MyVector<T> implements MyList {
     @Override
     public void remove(int index) {
         try {
-            this.container = (T[]) new Object[--size];
-            for (int i = 0; i < index; i++) {
-                this.container[i] = arr[i];
+            arr[index] = null;
+            size--;
+            temp--;
+            T ob;
+            for (int i = index; i <= size; i++) {
+                ob = arr[i + 1];
+                arr[i + 1] = arr[i];
+                arr[i] = (T) ob;
             }
-            for (int i = index + 1; i < arr.length - 1; i++) {
-                this.container[i - 1] = arr[i];
-            }
-            this.arr = (T[]) new Object[size];
-            this.temp--;
-            for (int i = 0; i < size; i++) {
-                arr[i] = container[i];
-            }
-            this.container = null;
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
@@ -127,11 +114,12 @@ public class MyVector<T> implements MyList {
             if (fromIndex >= toIndex || toIndex > size) throw new ArrayIndexOutOfBoundsException();
             T ob;
             size -= toIndex - fromIndex;
+            temp -= toIndex - fromIndex;
             for (int i = 0; i <= toIndex - fromIndex; i++) {
-                ob = arr[fromIndex+i];
-                arr[fromIndex+i] = arr[toIndex+i];
-                arr[toIndex+i] = (T) ob;
-                arr[toIndex+i] = null;
+                ob = arr[fromIndex + i];
+                arr[fromIndex + i] = arr[toIndex + i];
+                arr[toIndex + i] =  ob;
+                arr[toIndex + i] = null;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -195,8 +183,8 @@ public class MyVector<T> implements MyList {
     }
 
     @Override
-    public Object subList(int fromIndex, int toIndex) {
-        MyArrayList<T> subList = new MyArrayList();
+    public MyList subList(int fromIndex, int toIndex) {
+        MyList<T> subList = new MyArrayList();
         try {
             for (int i = 0; i <= toIndex - fromIndex; i++) {
                 subList.add(arr[i]);
@@ -209,8 +197,8 @@ public class MyVector<T> implements MyList {
     }
 
     @Override
-    public Object clone() {
-        MyArrayList clone = new MyArrayList();
+    public MyList clone() {
+        MyList clone = new MyArrayList();
         for (int i = 0; i < size; i++) {
             clone.add(arr[i]);
         }
