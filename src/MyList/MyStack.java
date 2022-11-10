@@ -1,3 +1,5 @@
+package MyList;
+
 public class MyStack<T> extends MyVector {
 
     MyStack(T ...el) {
@@ -31,8 +33,5 @@ public class MyStack<T> extends MyVector {
         }
         return -1;
     }
-
-
-
 
 }

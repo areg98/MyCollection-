@@ -1,4 +1,4 @@
-
+package MyList;
 
 public interface MyList <T> {
 
@@ -9,6 +9,7 @@ public interface MyList <T> {
 
     void add(int index, T el);
 
+    void addAll(MyList list);
 
     void remove(int index);
 
