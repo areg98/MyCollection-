@@ -112,7 +112,6 @@ public class MyArrayList<T> implements MyList {
              }
     }
 
-    @Override
     public void removeRange(int fromIndex, int toIndex) {
         try {
             if (fromIndex >= toIndex || toIndex > size) throw new ArrayIndexOutOfBoundsException();
