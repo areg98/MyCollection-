@@ -65,7 +65,7 @@ public class MyLinkedList<T> implements MyList {
     @Override
     public void add(int index, Object el) {
         Node<T> element = this.first;
-        for (int i = 0; i < index ; i++) {
+        for (int i = 0; i < index; i++) {
             element = element.next;
         }
         Node<T> node = new Node(element.prev, el, element);
@@ -153,7 +153,7 @@ public class MyLinkedList<T> implements MyList {
         MyLinkedList<T> clone = new MyLinkedList();
         Node<T> element = this.first;
         for (int i = fromIndex; i < toIndex; i++) {
-            if (i >= fromIndex && i < toIndex){
+            if (i >= fromIndex && i < toIndex) {
                 clone.add(element.el);
             }
             element = element.next;
@@ -163,18 +163,27 @@ public class MyLinkedList<T> implements MyList {
 
     @Override
     public MyList clone() {
-       MyLinkedList<T> clone = new MyLinkedList();
-       Node<T> element = this.first;
-       while (element.next != null){
-           clone.add(element.el);
-           element = element.next;
-       }
-       return clone;
+        MyLinkedList<T> clone = new MyLinkedList();
+        Node<T> element = this.first;
+        while (element.next != null) {
+            clone.add(element.el);
+            element = element.next;
+        }
+        return clone;
     }
 
     @Override
     public void sort() {
-
+        Node<T> point = new Node<T>(null, null, null);
+        for (Node<T> element = this.first; element != null; element = element.next) {
+            for (Node<T> element1 = this.first; element1 != null; element1 = element1.next) {
+                if (element.el.toString().compareTo(element1.el.toString()) < 0) {
+                    point.el = element.el;
+                    element.el = element1.el;
+                    element1.el = point.el;
+                }
+            }
+        }
     }
 
 
