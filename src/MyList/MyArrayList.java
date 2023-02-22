@@ -41,7 +41,7 @@ public class MyArrayList<T> implements MyList {
 
     public String toString() {
         try {
-            if (arr[0] == null) {
+            if (this.arr == null) {
                 throw new NullPointerException();
             }
             String str = "[" + arr[0];
@@ -63,21 +63,26 @@ public class MyArrayList<T> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        if (size >= MAX_ARRAY_SIZE) {
+        try {
+            if (size >= MAX_ARRAY_SIZE) {
+                throw new ArrayIndexOutOfBoundsException();
+            } else if (capacity - size == 1) {
+                newSpace();
+            }
+            size++;
+            arr[++temp] = (T) el;
+            return true;
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_ARRAY_SIZE + "\u001B[0m");
+            e.printStackTrace();
             return false;
-        } else if (capacity - size == 1) {
-            newSpace();
         }
-        size++;
-        arr[++temp] = (T) el;
-        return true;
     }
 
     @Override
     public void add(int index, Object el) {
         try {
-            if (index >= size) throw new ArrayIndexOutOfBoundsException();
+            if (index >= size || index < 0) throw new ArrayIndexOutOfBoundsException();
             T ob;
             add(el);
             for (int i = size - 2; i >= index; i--) {
@@ -113,7 +118,6 @@ public class MyArrayList<T> implements MyList {
         }
     }
 
-    @Override
     public void removeRange(int fromIndex, int toIndex) {
         try {
             if (fromIndex >= toIndex || toIndex > size) throw new ArrayIndexOutOfBoundsException();
@@ -134,6 +138,7 @@ public class MyArrayList<T> implements MyList {
     @Override
     public T get(int index) {
         try {
+            if (index >= size || index < 0) throw new ArrayIndexOutOfBoundsException();
             return arr[index];
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -210,18 +215,23 @@ public class MyArrayList<T> implements MyList {
 
     @Override
     public void sort() {
-        if (this.arr[0] == null) {
-            System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
-        }
-        T ob;
-        for (int i = 0; i < this.size(); i++) {
-            for (int j = 0; j < this.size(); j++) {
-                if (arr[i].toString().compareTo(arr[j].toString()) < 0) {
-                    ob = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = ob;
+        try {
+            if (this.arr == null) {
+               throw new ArrayIndexOutOfBoundsException();
+            }
+            T ob;
+            for (int i = 0; i < this.size(); i++) {
+                for (int j = 0; j < this.size(); j++) {
+                    if (arr[i].toString().compareTo(arr[j].toString()) < 0) {
+                        ob = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = ob;
+                    }
                 }
             }
+        }catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+            System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
         }
     }
 }

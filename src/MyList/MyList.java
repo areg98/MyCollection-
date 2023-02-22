@@ -13,8 +13,6 @@ public interface MyList <T> {
 
     void remove(int index);
 
-    void removeRange(int fromIndex, int toIndex);
-
     T get(int index);
 
     boolean contains(T el);

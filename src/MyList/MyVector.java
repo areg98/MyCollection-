@@ -1,6 +1,5 @@
 package MyList;
 
-
 public class MyVector<T> implements MyList {
 
     private final int capacity = 8;
@@ -10,7 +9,7 @@ public class MyVector<T> implements MyList {
     private static final int MAX_ARRAY_SIZE = 67108864;
 
 
-    public MyVector(T... el) {
+    MyVector(T... el) {
         size = 0;
         temp = -1;
         this.arr = (T[]) new Object[capacity];
@@ -34,7 +33,7 @@ public class MyVector<T> implements MyList {
 
     public String toString() {
         try {
-            if (arr[0] == null) {
+            if (this.arr == null) {
                 throw new NullPointerException();
             }
             String str = "[" + arr[0];
@@ -56,28 +55,34 @@ public class MyVector<T> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        if (size > MAX_ARRAY_SIZE) {
+        try {
+            if (size >= MAX_ARRAY_SIZE) {
+                throw new ArrayIndexOutOfBoundsException();
+            } else if (capacity - size == 1) {
+                newSpace();
+            }
+            size++;
+            arr[++temp] = (T) el;
+            return true;
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_ARRAY_SIZE + "\u001B[0m");
-        } else if (capacity - size == 1) {
-            newSpace();
+            e.printStackTrace();
+            return false;
         }
-        size++;
-        arr[++temp] = (T) el;
-        return true;
     }
 
     @Override
     public void add(int index, Object el) {
         try {
-            if (index >= size) throw new ArrayIndexOutOfBoundsException();
+            if (index >= size || index < 0) throw new ArrayIndexOutOfBoundsException();
             T ob;
             add(el);
             for (int i = size - 2; i >= index; i--) {
                 ob = arr[i + 1];
                 arr[i + 1] = arr[i];
-                arr[i] = ob;
+                arr[i] = (T) ob;
             }
-        } catch (Exception e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
@@ -94,42 +99,44 @@ public class MyVector<T> implements MyList {
     @Override
     public void remove(int index) {
         try {
-            arr[index] = null;
-            size--;
-            temp--;
-            T ob;
-            for (int i = index; i <= size; i++) {
-                ob = arr[i + 1];
-                arr[i + 1] = arr[i];
-                arr[i] = (T) ob;
+            this.container = (T[]) new Object[--size];
+            for (int i = 0; i < index; i++) {
+                this.container[i] = arr[i];
             }
+            for (int i = index + 1; i < arr.length - 1; i++) {
+                this.container[i - 1] = arr[i];
+            }
+            this.arr = (T[]) new Object[size];
+            this.temp--;
+            for (int i = 0; i < size; i++) {
+                arr[i] = container[i];
+            }
+            this.container = null;
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
     public void removeRange(int fromIndex, int toIndex) {
         try {
             if (fromIndex >= toIndex || toIndex > size) throw new ArrayIndexOutOfBoundsException();
             T ob;
             size -= toIndex - fromIndex;
-            temp -= toIndex - fromIndex;
             for (int i = 0; i <= toIndex - fromIndex; i++) {
                 ob = arr[fromIndex + i];
                 arr[fromIndex + i] = arr[toIndex + i];
-                arr[toIndex + i] =  ob;
+                arr[toIndex + i] = (T) ob;
                 arr[toIndex + i] = null;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public T get(int index) {
         try {
+            if (index >= size || index < 0) throw new ArrayIndexOutOfBoundsException();
             return arr[index];
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -183,8 +190,8 @@ public class MyVector<T> implements MyList {
     }
 
     @Override
-    public MyList subList(int fromIndex, int toIndex) {
-        MyList<T> subList = new MyArrayList();
+    public Object subList(int fromIndex, int toIndex) {
+        MyArrayList<T> subList = new MyArrayList();
         try {
             for (int i = 0; i <= toIndex - fromIndex; i++) {
                 subList.add(arr[i]);
@@ -207,22 +214,25 @@ public class MyVector<T> implements MyList {
 
     @Override
     public void sort() {
-        if (this.arr == null) {
-            System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
-            return;
-        }
-        T ob;
-        for (int i = 0; i < this.size(); i++) {
-            for (int j = 0; j < this.size(); j++) {
-                if (arr[i].toString().compareTo(arr[j].toString()) < 0) {
-                    ob = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = ob;
+        try {
+            if (this.arr == null) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
+            T ob;
+            for (int i = 0; i < this.size(); i++) {
+                for (int j = 0; j < this.size(); j++) {
+                    if (arr[i].toString().compareTo(arr[j].toString()) < 0) {
+                        ob = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = ob;
+                    }
                 }
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
+            System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
         }
     }
-
 
     public Object firstElement() {
         return (this.arr != null) ? arr[0] : null;
