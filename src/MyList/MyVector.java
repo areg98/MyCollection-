@@ -1,7 +1,5 @@
 package MyList;
 
-import MyList.MyList;
-
 public class MyVector<T> implements MyList {
 
     private final int capacity = 8;
@@ -35,7 +33,7 @@ public class MyVector<T> implements MyList {
 
     public String toString() {
         try {
-            if (arr[0] == null) {
+            if (this.arr == null) {
                 throw new NullPointerException();
             }
             String str = "[" + arr[0];
@@ -45,7 +43,7 @@ public class MyVector<T> implements MyList {
             str += "]";
             return str;
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
         return null;
     }
@@ -57,35 +55,35 @@ public class MyVector<T> implements MyList {
 
     @Override
     public boolean add(Object el) {
-        if (size > MAX_ARRAY_SIZE) {
+        try {
+            if (size >= MAX_ARRAY_SIZE) {
+                throw new ArrayIndexOutOfBoundsException();
+            } else if (capacity - size == 1) {
+                newSpace();
+            }
+            size++;
+            arr[++temp] = (T) el;
+            return true;
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_ARRAY_SIZE + "\u001B[0m");
-        } else if (capacity - size == 1) {
-            newSpace();
+            e.printStackTrace();
+            return false;
         }
-        size++;
-        arr[++temp] = (T) el;
-        return true;
     }
 
     @Override
     public void add(int index, Object el) {
         try {
-            this.container = (T[]) new Object[++size];
-            for (int i = 0; i < index; i++) {
-                this.container[i] = arr[i];
+            if (index >= size || index < 0) throw new ArrayIndexOutOfBoundsException();
+            T ob;
+            add(el);
+            for (int i = size - 2; i >= index; i--) {
+                ob = arr[i + 1];
+                arr[i + 1] = arr[i];
+                arr[i] = (T) ob;
             }
-            this.container[index] = (T) el;
-            for (int i = index + 1; i < size; i++) {
-                this.container[i] = arr[i - 1];
-            }
-            this.arr = (T[]) new Object[size];
-            this.temp++;
-            for (int i = 0; i < size; i++) {
-                arr[i] = container[i];
-            }
-            this.container = null;
-        } catch (Exception e) {
-        e.printStackTrace();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
         }
     }
 
@@ -124,10 +122,10 @@ public class MyVector<T> implements MyList {
             T ob;
             size -= toIndex - fromIndex;
             for (int i = 0; i <= toIndex - fromIndex; i++) {
-                ob = arr[fromIndex+i];
-                arr[fromIndex+i] = arr[toIndex+i];
-                arr[toIndex+i] = (T) ob;
-                arr[toIndex+i] = null;
+                ob = arr[fromIndex + i];
+                arr[fromIndex + i] = arr[toIndex + i];
+                arr[toIndex + i] = (T) ob;
+                arr[toIndex + i] = null;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -137,6 +135,7 @@ public class MyVector<T> implements MyList {
     @Override
     public T get(int index) {
         try {
+            if (index >= size || index < 0) throw new ArrayIndexOutOfBoundsException();
             return arr[index];
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
@@ -214,22 +213,25 @@ public class MyVector<T> implements MyList {
 
     @Override
     public void sort() {
-        if (this.arr == null) {
-            System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
-            return;
-        }
-        T ob;
-        for (int i = 0; i < this.size(); i++) {
-            for (int j = 0; j < this.size(); j++) {
-                if (arr[i].toString().compareTo(arr[j].toString()) < 0) {
-                    ob = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = ob;
+        try {
+            if (this.arr == null) {
+                throw new ArrayIndexOutOfBoundsException();
+            }
+            T ob;
+            for (int i = 0; i < this.size(); i++) {
+                for (int j = 0; j < this.size(); j++) {
+                    if (arr[i].toString().compareTo(arr[j].toString()) < 0) {
+                        ob = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = ob;
+                    }
                 }
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
+            System.out.println("\u001B[31m" + "Not Possible to sort, because given is null " + "\u001B[0m");
         }
     }
-
 
     public Object firstElement() {
         return (this.arr != null) ? arr[0] : null;
