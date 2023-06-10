@@ -56,6 +56,7 @@ public class MyLinkedList<T> implements MyList {
         return size;
     }
 
+
     @Override
     public boolean add(Object el) {
         linkLast((T) el);

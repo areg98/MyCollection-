@@ -190,7 +190,7 @@ public class MyVector<T> implements MyList {
     }
 
     @Override
-    public Object subList(int fromIndex, int toIndex) {
+    public MyList subList(int fromIndex, int toIndex) {
         MyArrayList<T> subList = new MyArrayList();
         try {
             for (int i = 0; i <= toIndex - fromIndex; i++) {
