@@ -125,7 +125,6 @@ public class MyHashMap<K, V> implements MyMap {
             }
         }
         container = null;
-        r++;
     }
 
     private boolean checkUniqueKey(Object key, Object value) {
