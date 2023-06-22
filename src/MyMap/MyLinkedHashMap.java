@@ -17,7 +17,7 @@ public class MyLinkedHashMap <T> implements MyMap{
     }
 
     @Override
-    public Object getByKey(Object key) {
+    public Object get(Object key) {
         return null;
     }
 

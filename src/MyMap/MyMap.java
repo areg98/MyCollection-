@@ -7,7 +7,7 @@ public interface MyMap <K,V> {
 
     void remove(K key);
 
-    K getByKey(K key);
+    K get(K key);
 
     K getByValue(K value);
 
