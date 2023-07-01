@@ -39,7 +39,7 @@ public class Main {
         for (int i = 0, j = 0; i <= 100; i++, j++) {
             map1.put(i,j);
         }
-        map1.remove(0);
+//        map1.remove(0);
         System.out.println(map1);
         System.out.println(java.time.LocalTime.now());
         System.out.println(map1.get(0));
@@ -48,16 +48,17 @@ public class Main {
 
 
 
+//
+//        HashMap<Integer,Integer> map = new HashMap<>();
+//
+//        for (int i = 0, j = 0; i <= 100; i++, j++) {
+//            map.put(i,j);
+//        }
+//        map.remove(0);
+//        System.out.println(java.time.LocalTime.now());
+//        System.out.println(map.get(0));
+//        System.out.println(java.time.LocalTime.now());
 
-        HashMap<Integer,Integer> map = new HashMap<>();
-
-        for (int i = 0, j = 0; i <= 100; i++, j++) {
-            map.put(i,j);
-        }
-        map.remove(0);
-        System.out.println(java.time.LocalTime.now());
-        System.out.println(map.get(0));
-        System.out.println(java.time.LocalTime.now());
 
 
 //        System.out.println("size: " + map1.size());

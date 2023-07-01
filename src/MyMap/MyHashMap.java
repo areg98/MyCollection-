@@ -10,90 +10,132 @@ public class MyHashMap<K, V> implements MyMap {
     private MyList[] arr, container;
     private static final int MAX_MAP_SIZE = 67108864;
 
+    enum Flag {
+        GET,
+        REMOVE,
+    }
+
     public MyHashMap() {
         this.size = 0;
         this.arr = new MyList[capacity];
-        for (int i = 0; i < capacity; i++) {
+        for (int i = 0; i < capacity; ++i) {
             this.arr[i] = new MyArrayList();
         }
     }
 
-    private int getHashCode(Object key) {
-        String k = String.valueOf(key);
+    private final int getHashCode(Object key) {
+        final int ASCIISymCnt = 127;
         int hash = 0;
-        for (int i = 0; i < k.length(); i++) {
-            hash *= 127;
-            hash += k.charAt(i);
+        String sKeyString = String.valueOf(key);
+
+        for (int i = 0; i < sKeyString.length(); ++i) {
+            hash = hash * ASCIISymCnt + sKeyString.charAt(i);
         }
-        int index = hash % capacity;
 
-
-        return index;
+        return hash % capacity;
     }
 
     @Override
-    public int size() {
+    public final int size() {
         return size;
     }
 
     @Override
     public void put(Object key, Object value) {
         try {
-            if (size >= MAX_MAP_SIZE) {
+            if (size == MAX_MAP_SIZE) {
                 throw new ArrayIndexOutOfBoundsException();
+
             } else if (capacity - size == 1) {
-                newSpace();
+                //TODO change name to something like normalizeSize
+                resize();
             }
-            Object[] temp = new Object[2];
-            temp[0] = key;
-            temp[1] = value;
+
+            Object[] pairKeyValue = new Object[2];
+            pairKeyValue[0] = key;
+            pairKeyValue[1] = value;
 
             size++;
+
+            // can we have version with duplicate keys?
             if (checkUniqueKey(key, value)) {
-                arr[getHashCode(key)].add(temp);
+                arr[getHashCode(key)].add(pairKeyValue);
                 /**
                  if (arr[getHashCode(key)].size() == 3) {
                  newSpace();
                  }
                  */
-
             }
-
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_MAP_SIZE + "\u001B[0m");
             e.printStackTrace();
         }
     }
+    //helper for get/remove
+
+    private Object GetRemoveHelper(Object key, Flag flag) {
+
+        MyList currIndex = arr[getHashCode(key)];
+
+        for (int i = 0; i < currIndex.size(); i++) {
+            Object[] currElement = (Object[]) currIndex.get(i);
+
+            /**
+             * if found key to remove or return
+             * */
+
+            if (currElement[0].equals(key)) {
+
+                switch (flag)
+                {
+                    case GET:
+                        return currElement[1];
+                    case REMOVE:
+                        currIndex.remove(i);
+                        return null;
+                }
+
+            }
+        }
+
+        return null;
+    }
 
     @Override
     public void remove(Object key) {
-        if (arr[getHashCode(key)].size() > 0) {
-            for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
-                Object[] el = (Object[]) arr[getHashCode(key)].get(i);
-                if (el[0].equals(key)) {
-                    arr[getHashCode(key)].remove(i);
-                }
-            }
-        } else {
-            arr[getHashCode(key)].remove(0);
-        }
+        // if item to remove not exit in arr?
+        // currArrayList
+//        for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
+//            Object[] currElement = (Object[]) arr[getHashCode(key)].get(i);
+//            // if found key to remove
+//            if (currElement[0].equals(key)) {
+//                arr[getHashCode(key)].remove(i);
+//            }
+//        }
+
+        //todo add exception
+
+        GetRemoveHelper(key, Flag.REMOVE);
+
         size--;
     }
 
     @Override
     public Object get(Object key) {
-        if (arr[getHashCode(key)].size() > 0) {
-            for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
-                Object[] el = (Object[]) arr[getHashCode(key)].get(i);
-                if (el[0].equals(key)) {
-                    return el[1];
-                }
-            }
-        } else if (arr[getHashCode(key)].size() == 1) {
-            Object[] el = (Object[]) arr[getHashCode(key)].get(0);
-            return el[1];
-        }
-        return null;
+//        if (arr[getHashCode(key)].size() > 0) {
+//            for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
+//                Object[] el = (Object[]) arr[getHashCode(key)].get(i);
+//                if (el[0].equals(key)) {
+//                    return el[1];
+//                }
+//            }
+//        } else if (arr[getHashCode(key)].size() == 1) {
+//            Object[] el = (Object[]) arr[getHashCode(key)].get(0);
+//            return el[1];
+//        }
+
+        //todo add exception
+        return GetRemoveHelper(key, Flag.GET);
     }
 
     @Override
@@ -101,7 +143,7 @@ public class MyHashMap<K, V> implements MyMap {
         return null;
     }
 
-    private void newSpace() {
+    private void resize() {
 
         container = new MyList[capacity];
         for (int i = 0; i < capacity; i++) {
