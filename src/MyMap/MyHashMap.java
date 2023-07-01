@@ -58,6 +58,8 @@ public class MyHashMap<K, V> implements MyMap {
             size++;
 
             // can we have version with duplicate keys?
+            // yes, maybe the user wants to put an element with the key which is already exists.
+
             if (checkUniqueKey(key, value)) {
                 arr[getHashCode(key)].add(pairKeyValue);
                 /**
@@ -86,18 +88,15 @@ public class MyHashMap<K, V> implements MyMap {
 
             if (currElement[0].equals(key)) {
 
-                switch (flag)
-                {
+                switch (flag) {
                     case GET:
                         return currElement[1];
                     case REMOVE:
                         currIndex.remove(i);
                         return null;
                 }
-
             }
         }
-
         return null;
     }
 
@@ -114,10 +113,9 @@ public class MyHashMap<K, V> implements MyMap {
 //        }
 
         //todo add exception
-        try{
-
+        try {
             GetRemoveHelper(key, Flag.REMOVE);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("\u001B[31m" + "No Such Element" + "\u001B[0m");
             e.printStackTrace();
         }
@@ -175,11 +173,14 @@ public class MyHashMap<K, V> implements MyMap {
     }
 
     private boolean checkUniqueKey(Object key, Object value) {
-        if (arr[getHashCode(key)].size() == 0) {
+
+        MyList currIndex = arr[getHashCode(key)];
+
+        if (currIndex.size() == 0) {
             return true;
         }
-        for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
-            Object[] t = (Object[]) arr[getHashCode(key)].get(i);
+        for (int i = 0; i < currIndex.size(); i++) {
+            Object[] t = (Object[]) currIndex.get(i);
             if (t[0].equals(key)) {
                 t[1] = value;
                 return false;
@@ -190,29 +191,26 @@ public class MyHashMap<K, V> implements MyMap {
 
 
     public String toString() {
-        try {
-            if (this.arr == null) {
-                throw new NullPointerException();
-            }
-            String str = "{";
-            for (int i = 0; i < this.arr.length; i++) {
-                if (arr[i] != null) {
-                    for (int j = 0; j < arr[i].size(); j++) {
-                        Object[] t = (Object[]) arr[i].get(j);
-                        str += t[0] + "=" + t[1];
-                        str += ", ";
-                    }
-                }
-                //todo need to change
-                if (i == this.arr.length - 1) {
-                    str = str.substring(0, str.length() - 2);
-                }
-            }
-            str += "}";
-            return str;
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        String str;
+        if (this.size == 0) {
+            return str = "{}";
         }
-        return null;
+        str = "{";
+        for (int i = 0; i < this.arr.length; i++) {
+            if (arr[i] != null) {
+                for (int j = 0; j < arr[i].size(); j++) {
+                    Object[] t = (Object[]) arr[i].get(j);
+                    str += t[0] + "=" + t[1];
+                    str += ", ";
+                }
+            }
+            //todo need to change
+            if (i == this.arr.length - 1) {
+                str = str.substring(0, str.length() - 2);
+            }
+        }
+        str += "}";
+        return str;
     }
 }

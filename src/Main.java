@@ -36,14 +36,14 @@ public class Main {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-        for (int i = 0, j = 0; i <= 100; i++, j++) {
-            map1.put(i,j);
-        }
+//        for (int i = 0, j = 0; i <= 100; i++, j++) {
+//            map1.put(i,j);
+//        }
 //        map1.remove(0);
         System.out.println(map1);
-        System.out.println(java.time.LocalTime.now());
-        System.out.println(map1.get(0));
-        System.out.println(java.time.LocalTime.now());
+//        System.out.println(java.time.LocalTime.now());
+//        System.out.println(map1.get(0));
+//        System.out.println(java.time.LocalTime.now());
 
 
 
