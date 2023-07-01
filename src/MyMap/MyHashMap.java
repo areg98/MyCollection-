@@ -114,8 +114,13 @@ public class MyHashMap<K, V> implements MyMap {
 //        }
 
         //todo add exception
+        try{
 
-        GetRemoveHelper(key, Flag.REMOVE);
+            GetRemoveHelper(key, Flag.REMOVE);
+        }catch (Exception e){
+            System.out.println("\u001B[31m" + "No Such Element" + "\u001B[0m");
+            e.printStackTrace();
+        }
 
         size--;
     }
