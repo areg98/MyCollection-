@@ -15,6 +15,15 @@ public class MyHashMap<K, V> implements MyMap {
         REMOVE,
     }
 
+//    private static class Node<T> {
+//        Object key, value;
+//
+//        private Node(Object key, Object value) {
+//            this.key = key;
+//            this.value = value;
+//        }
+//    }
+
     public MyHashMap() {
         this.size = 0;
         this.arr = new MyList[capacity];
@@ -48,25 +57,26 @@ public class MyHashMap<K, V> implements MyMap {
 
             } else if (capacity - size == 1) {
                 //TODO change name to something like normalizeSize
-                resize();
+                normalizeMap();
             }
+
 
             Object[] pairKeyValue = new Object[2];
             pairKeyValue[0] = key;
             pairKeyValue[1] = value;
+
+
 
             size++;
 
             // can we have version with duplicate keys?
             // yes, maybe the user wants to put an element with the key which is already exists.
 
-            if (checkUniqueKey(key, value)) {
+            if (GetRemoveHelper(key, Flag.GET) == null) {
                 arr[getHashCode(key)].add(pairKeyValue);
-                /**
-                 if (arr[getHashCode(key)].size() == 3) {
-                 newSpace();
-                 }
-                 */
+//                arr[getHashCode(key)].add(new Node (key, value));
+            }else {
+                GetRemoveHelper(key, Flag.GET)[1] = value;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_MAP_SIZE + "\u001B[0m");
@@ -75,24 +85,22 @@ public class MyHashMap<K, V> implements MyMap {
     }
     //helper for get/remove
 
-    private Object GetRemoveHelper(Object key, Flag flag) {
+    private Object[] GetRemoveHelper(Object key, Flag flag) {
 
-        MyList currIndex = arr[getHashCode(key)];
+        MyList currBucket = arr[getHashCode(key)];
 
-        for (int i = 0; i < currIndex.size(); i++) {
-            Object[] currElement = (Object[]) currIndex.get(i);
+        for (int i = 0; i < currBucket.size(); i++) {
+            Object[] currElement = (Object[]) currBucket.get(i);
 
-            /**
-             * if found key to remove or return
-             * */
+            /** if found key to remove or return */
 
             if (currElement[0].equals(key)) {
 
                 switch (flag) {
                     case GET:
-                        return currElement[1];
+                        return currElement;
                     case REMOVE:
-                        currIndex.remove(i);
+                        currBucket.remove(i);
                         return null;
                 }
             }
@@ -102,17 +110,7 @@ public class MyHashMap<K, V> implements MyMap {
 
     @Override
     public void remove(Object key) {
-        // if item to remove not exit in arr?
-        // currArrayList
-//        for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
-//            Object[] currElement = (Object[]) arr[getHashCode(key)].get(i);
-//            // if found key to remove
-//            if (currElement[0].equals(key)) {
-//                arr[getHashCode(key)].remove(i);
-//            }
-//        }
 
-        //todo add exception
         try {
             GetRemoveHelper(key, Flag.REMOVE);
         } catch (Exception e) {
@@ -125,20 +123,14 @@ public class MyHashMap<K, V> implements MyMap {
 
     @Override
     public Object get(Object key) {
-//        if (arr[getHashCode(key)].size() > 0) {
-//            for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
-//                Object[] el = (Object[]) arr[getHashCode(key)].get(i);
-//                if (el[0].equals(key)) {
-//                    return el[1];
-//                }
-//            }
-//        } else if (arr[getHashCode(key)].size() == 1) {
-//            Object[] el = (Object[]) arr[getHashCode(key)].get(0);
-//            return el[1];
-//        }
 
-        //todo add exception
-        return GetRemoveHelper(key, Flag.GET);
+        try{
+            return GetRemoveHelper(key, Flag.GET)[1];
+        }catch (NullPointerException e){
+            System.out.println("\u001B[31m" + "No Such Element" + "\u001B[0m");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -146,7 +138,7 @@ public class MyHashMap<K, V> implements MyMap {
         return null;
     }
 
-    private void resize() {
+    private void normalizeMap() {
 
         container = new MyList[capacity];
         for (int i = 0; i < capacity; i++) {
@@ -172,22 +164,22 @@ public class MyHashMap<K, V> implements MyMap {
         container = null;
     }
 
-    private boolean checkUniqueKey(Object key, Object value) {
-
-        MyList currIndex = arr[getHashCode(key)];
-
-        if (currIndex.size() == 0) {
-            return true;
-        }
-        for (int i = 0; i < currIndex.size(); i++) {
-            Object[] t = (Object[]) currIndex.get(i);
-            if (t[0].equals(key)) {
-                t[1] = value;
-                return false;
-            }
-        }
-        return true;
-    }
+//    private boolean checkUniqueKey(Object key, Object value) {
+//
+//        MyList currIndex = arr[getHashCode(key)];
+//
+//        if (currIndex.size() == 0) {
+//            return true;
+//        }
+//        for (int i = 0; i < currIndex.size(); i++) {
+//            Object[] t = (Object[]) currIndex.get(i);
+//            if (t[0].equals(key)) {
+//                t[1] = value;
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
 
     public String toString() {
@@ -213,4 +205,28 @@ public class MyHashMap<K, V> implements MyMap {
         str += "}";
         return str;
     }
+
+//    public String toString() {
+//
+//        String str;
+//        if (this.size == 0) {
+//            return str = "{}";
+//        }
+//        str = "{";
+//        for (int i = 0; i < this.arr.length; i++) {
+//            if (arr[i] != null) {
+//                for (int j = 0; j < arr[i].size(); j++) {
+//                    Node node = (Node) arr[i].get(j);
+//                    str += node.key + "=" + node.value;
+//                    str += ", ";
+//                }
+//            }
+//            //todo need to change
+//            if (i == this.arr.length - 1) {
+//                str = str.substring(0, str.length() - 2);
+//            }
+//        }
+//        str += "}";
+//        return str;
+//    }
 }

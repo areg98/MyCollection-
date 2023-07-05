@@ -24,9 +24,9 @@ public class Main {
 //        arr[0].add(1);
 //        System.out.println(arr[0].get(0));
         MyHashMap<Integer,String> map1 = new MyHashMap<Integer, String>();
-//        map1.put(1,"Java");
-//        map1.put(2,"Python");
-//        map1.put(3,"JavaScript");
+        map1.put(1,"Java");
+        map1.put(2,"Python");
+        map1.put(3,"JavaScript");
 //        map1.put(2,"C++");
 //        map1.put(4,"C++");
 //        map1.put(2231,"Rudy");
@@ -39,10 +39,10 @@ public class Main {
 //        for (int i = 0, j = 0; i <= 100; i++, j++) {
 //            map1.put(i,j);
 //        }
-//        map1.remove(0);
+        map1.remove(1);
         System.out.println(map1);
 //        System.out.println(java.time.LocalTime.now());
-//        System.out.println(map1.get(0));
+        System.out.println(map1.get(1));
 //        System.out.println(java.time.LocalTime.now());
 
 
