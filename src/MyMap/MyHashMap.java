@@ -41,6 +41,7 @@ public class MyHashMap<K, V> implements MyMap {
             hash = hash * ASCIISymCnt + sKeyString.charAt(i);
         }
 
+        if (hash < 0) hash *= -1;
         return hash % capacity;
     }
 
@@ -56,16 +57,12 @@ public class MyHashMap<K, V> implements MyMap {
                 throw new ArrayIndexOutOfBoundsException();
 
             } else if (capacity - size == 1) {
-                //TODO change name to something like normalizeSize
                 normalizeMap();
             }
-
 
             Object[] pairKeyValue = new Object[2];
             pairKeyValue[0] = key;
             pairKeyValue[1] = value;
-
-
 
             size++;
 
@@ -79,11 +76,12 @@ public class MyHashMap<K, V> implements MyMap {
                 GetRemoveHelper(key, Flag.GET)[1] = value;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_MAP_SIZE + "\u001B[0m");
+            System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_MAP_SIZE + " or something went wrong" + "\u001B[0m");
             e.printStackTrace();
         }
     }
-    //helper for get/remove
+
+    /** helper for get/remove */
 
     private Object[] GetRemoveHelper(Object key, Flag flag) {
 
@@ -140,46 +138,22 @@ public class MyHashMap<K, V> implements MyMap {
 
     private void normalizeMap() {
 
-        container = new MyList[capacity];
-        for (int i = 0; i < capacity; i++) {
-            this.container[i] = new MyArrayList();
-        }
-        for (int i = 0; i < container.length; i++) {
-            for (int j = 0; j < arr[i].size(); j++) {
-                Object[] t = (Object[]) arr[i].get(j);
-                container[getHashCode(t[0])].add(t);
-            }
-        }
         capacity *= 2;
-        this.arr = new MyList[capacity];
-        for (int i = 0; i < capacity; i++) {
-            this.arr[i] = new MyArrayList();
+        MyList[] tempContainer = new MyList[capacity];
+        for (int i = 0; i < capacity; ++i) {
+            tempContainer[i] = new MyArrayList();
         }
-        for (int i = 0; i < container.length; i++) {
-            for (int j = 0; j < container[i].size(); j++) {
-                Object[] t = (Object[]) container[i].get(j);
-                arr[getHashCode(t[0])].add(t);
+
+        for (int i = 0; i < this.arr.length; ++i) {
+            MyList currBucket = arr[i];
+            for (int j = 0; j < currBucket.size(); ++j) {
+                Object[] currElement = (Object[]) currBucket.get(j);
+                tempContainer[getHashCode(currElement[0])].add(currElement);
             }
         }
-        container = null;
-    }
 
-//    private boolean checkUniqueKey(Object key, Object value) {
-//
-//        MyList currIndex = arr[getHashCode(key)];
-//
-//        if (currIndex.size() == 0) {
-//            return true;
-//        }
-//        for (int i = 0; i < currIndex.size(); i++) {
-//            Object[] t = (Object[]) currIndex.get(i);
-//            if (t[0].equals(key)) {
-//                t[1] = value;
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
+        this.arr = tempContainer;
+    }
 
 
     public String toString() {
