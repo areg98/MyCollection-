@@ -60,20 +60,21 @@ public class MyHashMap<K, V> implements MyMap {
                 normalizeMap();
             }
 
-            Object[] pairKeyValue = new Object[2];
-            pairKeyValue[0] = key;
-            pairKeyValue[1] = value;
-
             size++;
 
             // can we have version with duplicate keys?
             // yes, maybe the user wants to put an element with the key which is already exists.
 
-            if (GetRemoveHelper(key, Flag.GET) == null) {
+            Object[] currElement = GetRemoveHelper(key, Flag.GET);
+
+            if (currElement == null) {
+                Object[] pairKeyValue = new Object[2];
+                pairKeyValue[0] = key;
+                pairKeyValue[1] = value;
                 arr[getHashCode(key)].add(pairKeyValue);
 //                arr[getHashCode(key)].add(new Node (key, value));
             }else {
-                GetRemoveHelper(key, Flag.GET)[1] = value;
+                currElement[1] = value;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_MAP_SIZE + " or something went wrong" + "\u001B[0m");
