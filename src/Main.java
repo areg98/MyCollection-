@@ -39,7 +39,9 @@ public class Main {
             map1.put(i,j);
         }
 
-//        map1.remove(1);
+        map1.remove(1);
+        System.out.println(map1.get(2));
+
         System.out.println(map1);
         System.out.println(java.time.LocalDateTime.now());
         System.out.println();
