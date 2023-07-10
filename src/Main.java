@@ -33,29 +33,32 @@ public class Main {
 //        map1.put(2230,"C#");
 //        map1.put(2230,"C*");
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
+        System.out.println(java.time.LocalDateTime.now());
 
-        for (int i = 0, j = 0; i <= 100; i++, j++) {
+        for (int i = 0, j = 0; i <= 10; i++, j++) {
             map1.put(i,j);
         }
-//        map1.remove(0);
+
+//        map1.remove(1);
         System.out.println(map1);
-        System.out.println(java.time.LocalTime.now());
-        System.out.println(map1.get(0));
-        System.out.println(java.time.LocalTime.now());
-
-
-
-
-//
-//        HashMap<Integer,Integer> map = new HashMap<>();
-//
-//        for (int i = 0, j = 0; i <= 100; i++, j++) {
-//            map.put(i,j);
-//        }
-//        map.remove(0);
+        System.out.println(java.time.LocalDateTime.now());
+        System.out.println();
 //        System.out.println(java.time.LocalTime.now());
+//        System.out.println(map1.get(1));
+        System.out.println(java.time.LocalTime.now());
+
+
+
+
+//
+        HashMap<Integer,Integer> map = new HashMap<>();
+
+        for (int i = 0, j = 0; i <= 10; i++, j++) {
+            map.put(i,j);
+        }
+//        map.remove(0);
+        System.out.println(map);
+        System.out.println(java.time.LocalTime.now());
 //        System.out.println(map.get(0));
 //        System.out.println(java.time.LocalTime.now());
 
@@ -73,7 +76,7 @@ public class Main {
 //        System.out.println(map1.get(4));
 //        System.out.println(map1.get(2231));
 //        System.out.println(map1.get(2230));
-//        HashMap<Integer, Integer> m = new HashMap<>();
+        HashMap<Integer, Integer> m = new HashMap<>();
 //        m.put(1, 25);
 //        m.put(2, 26);
 //        m.put(8787, 26);

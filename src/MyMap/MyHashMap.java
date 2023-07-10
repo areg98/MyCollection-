@@ -15,6 +15,15 @@ public class MyHashMap<K, V> implements MyMap {
         REMOVE,
     }
 
+//    private static class Node<T> {
+//        Object key, value;
+//
+//        private Node(Object key, Object value) {
+//            this.key = key;
+//            this.value = value;
+//        }
+//    }
+
     public MyHashMap() {
         this.size = 0;
         this.arr = new MyList[capacity];
@@ -32,6 +41,7 @@ public class MyHashMap<K, V> implements MyMap {
             hash = hash * ASCIISymCnt + sKeyString.charAt(i);
         }
 
+        if (hash < 0) hash *= -1;
         return hash % capacity;
     }
 
@@ -47,95 +57,81 @@ public class MyHashMap<K, V> implements MyMap {
                 throw new ArrayIndexOutOfBoundsException();
 
             } else if (capacity - size == 1) {
-                //TODO change name to something like normalizeSize
-                resize();
+                normalizeMap();
             }
-
-            Object[] pairKeyValue = new Object[2];
-            pairKeyValue[0] = key;
-            pairKeyValue[1] = value;
 
             size++;
 
             // can we have version with duplicate keys?
-            if (checkUniqueKey(key, value)) {
+            // yes, maybe the user wants to put an element with the key which is already exists.
+
+            Object[] currElement = GetRemoveHelper(key, Flag.GET);
+
+            if (currElement == null) {
+                Object[] pairKeyValue = new Object[2];
+                pairKeyValue[0] = key;
+                pairKeyValue[1] = value;
                 arr[getHashCode(key)].add(pairKeyValue);
-                /**
-                 if (arr[getHashCode(key)].size() == 3) {
-                 newSpace();
-                 }
-                 */
+//                arr[getHashCode(key)].add(new Node (key, value));
+            } else {
+                currElement[1] = value;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_MAP_SIZE + "\u001B[0m");
+            System.out.println("\u001B[31m" + "Array list size cannot be more than " + MAX_MAP_SIZE + " or something went wrong" + "\u001B[0m");
             e.printStackTrace();
         }
     }
-    //helper for get/remove
 
-    private Object GetRemoveHelper(Object key, Flag flag) {
+    /**
+     * helper for get/remove
+     */
 
-        MyList currIndex = arr[getHashCode(key)];
+    private Object[] GetRemoveHelper(Object key, Flag flag) {
 
-        for (int i = 0; i < currIndex.size(); i++) {
-            Object[] currElement = (Object[]) currIndex.get(i);
+        MyList currBucket = arr[getHashCode(key)];
 
-            /**
-             * if found key to remove or return
-             * */
+        for (int i = 0; i < currBucket.size(); i++) {
+            Object[] currElement = (Object[]) currBucket.get(i);
+
+            /** if found key to remove or return */
 
             if (currElement[0].equals(key)) {
 
-                switch (flag)
-                {
+                switch (flag) {
                     case GET:
-                        return currElement[1];
+                        return currElement;
                     case REMOVE:
-                        currIndex.remove(i);
+                        currBucket.remove(i);
                         return null;
                 }
-
             }
         }
-
         return null;
     }
 
     @Override
     public void remove(Object key) {
-        // if item to remove not exit in arr?
-        // currArrayList
-//        for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
-//            Object[] currElement = (Object[]) arr[getHashCode(key)].get(i);
-//            // if found key to remove
-//            if (currElement[0].equals(key)) {
-//                arr[getHashCode(key)].remove(i);
-//            }
-//        }
 
-        //todo add exception
-
-        GetRemoveHelper(key, Flag.REMOVE);
+        try {
+            GetRemoveHelper(key, Flag.REMOVE);
+        } catch (Exception e) {
+            System.out.println("\u001B[31m" + "No Such Element" + "\u001B[0m");
+            e.printStackTrace();
+        }
 
         size--;
     }
 
     @Override
     public Object get(Object key) {
-//        if (arr[getHashCode(key)].size() > 0) {
-//            for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
-//                Object[] el = (Object[]) arr[getHashCode(key)].get(i);
-//                if (el[0].equals(key)) {
-//                    return el[1];
-//                }
-//            }
-//        } else if (arr[getHashCode(key)].size() == 1) {
-//            Object[] el = (Object[]) arr[getHashCode(key)].get(0);
-//            return el[1];
-//        }
 
-        //todo add exception
-        return GetRemoveHelper(key, Flag.GET);
+        try {
+            return GetRemoveHelper(key, Flag.GET)[1];
+        } catch (NullPointerException e) {
+            System.out.println("\u001B[31m" + "No Such Element" + "\u001B[0m");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -143,71 +139,65 @@ public class MyHashMap<K, V> implements MyMap {
         return null;
     }
 
-    private void resize() {
+    private void normalizeMap() {
 
-        container = new MyList[capacity];
-        for (int i = 0; i < capacity; i++) {
-            this.container[i] = new MyArrayList();
-        }
-        for (int i = 0; i < container.length; i++) {
-            for (int j = 0; j < arr[i].size(); j++) {
-                Object[] t = (Object[]) arr[i].get(j);
-                container[getHashCode(t[0])].add(t);
-            }
-        }
         capacity *= 2;
-        this.arr = new MyList[capacity];
-        for (int i = 0; i < capacity; i++) {
-            this.arr[i] = new MyArrayList();
+        MyList[] tempContainer = new MyList[capacity];
+        for (int i = 0; i < capacity; ++i) {
+            tempContainer[i] = new MyArrayList();
         }
-        for (int i = 0; i < container.length; i++) {
-            for (int j = 0; j < container[i].size(); j++) {
-                Object[] t = (Object[]) container[i].get(j);
-                arr[getHashCode(t[0])].add(t);
-            }
-        }
-        container = null;
-    }
 
-    private boolean checkUniqueKey(Object key, Object value) {
-        if (arr[getHashCode(key)].size() == 0) {
-            return true;
-        }
-        for (int i = 0; i < arr[getHashCode(key)].size(); i++) {
-            Object[] t = (Object[]) arr[getHashCode(key)].get(i);
-            if (t[0].equals(key)) {
-                t[1] = value;
-                return false;
+        for (int i = 0; i < this.arr.length; ++i) {
+            MyList currBucket = arr[i];
+            for (int j = 0; j < currBucket.size(); ++j) {
+                Object[] currElement = (Object[]) currBucket.get(j);
+                tempContainer[getHashCode(currElement[0])].add(currElement);
             }
         }
-        return true;
+
+        this.arr = tempContainer;
     }
 
 
     public String toString() {
-        try {
-            if (this.arr == null) {
-                throw new NullPointerException();
-            }
-            String str = "{";
-            for (int i = 0; i < this.arr.length; i++) {
-                if (arr[i] != null) {
-                    for (int j = 0; j < arr[i].size(); j++) {
-                        Object[] t = (Object[]) arr[i].get(j);
-                        str += t[0] + "=" + t[1];
-                        str += ", ";
-                    }
-                }
-                //todo need to change
-                if (i == this.arr.length - 1) {
-                    str = str.substring(0, str.length() - 2);
+
+        String str;
+
+        str = "{";
+        for (int i = 0; i < this.arr.length; i++) {
+            if (arr[i] != null) {
+                for (int j = 0; j < arr[i].size(); j++) {
+                    Object[] t = (Object[]) arr[i].get(j);
+                    str += t[0] + "=" + t[1];
+                    str+= (i == arr.length -1) ? "" : ", ";
                 }
             }
-            str += "}";
-            return str;
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return null;
+        str += "}";
+        return str;
     }
+
+//    public String toString() {
+//
+//        String str;
+//        if (this.size == 0) {
+//            return str = "{}";
+//        }
+//        str = "{";
+//        for (int i = 0; i < this.arr.length; i++) {
+//            if (arr[i] != null) {
+//                for (int j = 0; j < arr[i].size(); j++) {
+//                    Node node = (Node) arr[i].get(j);
+//                    str += node.key + "=" + node.value;
+//                    str += ", ";
+//                }
+//            }
+//            //todo need to change
+//            if (i == this.arr.length - 1) {
+//                str = str.substring(0, str.length() - 2);
+//            }
+//        }
+//        str += "}";
+//        return str;
+//    }
 }

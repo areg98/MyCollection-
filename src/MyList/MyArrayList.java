@@ -64,7 +64,7 @@ public class MyArrayList<T> implements MyList {
     @Override
     public boolean add(Object el) {
         try {
-            if (size >= MAX_ARRAY_SIZE) {
+            if (size == MAX_ARRAY_SIZE) {
                 throw new ArrayIndexOutOfBoundsException();
             } else if (capacity - size == 1) {
                 newSpace();
