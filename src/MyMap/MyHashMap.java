@@ -73,7 +73,7 @@ public class MyHashMap<K, V> implements MyMap {
                 pairKeyValue[1] = value;
                 arr[getHashCode(key)].add(pairKeyValue);
 //                arr[getHashCode(key)].add(new Node (key, value));
-            }else {
+            } else {
                 currElement[1] = value;
             }
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -82,7 +82,9 @@ public class MyHashMap<K, V> implements MyMap {
         }
     }
 
-    /** helper for get/remove */
+    /**
+     * helper for get/remove
+     */
 
     private Object[] GetRemoveHelper(Object key, Flag flag) {
 
@@ -123,9 +125,9 @@ public class MyHashMap<K, V> implements MyMap {
     @Override
     public Object get(Object key) {
 
-        try{
+        try {
             return GetRemoveHelper(key, Flag.GET)[1];
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("\u001B[31m" + "No Such Element" + "\u001B[0m");
             e.printStackTrace();
             return null;
@@ -160,21 +162,15 @@ public class MyHashMap<K, V> implements MyMap {
     public String toString() {
 
         String str;
-        if (this.size == 0) {
-            return str = "{}";
-        }
+
         str = "{";
         for (int i = 0; i < this.arr.length; i++) {
             if (arr[i] != null) {
                 for (int j = 0; j < arr[i].size(); j++) {
                     Object[] t = (Object[]) arr[i].get(j);
                     str += t[0] + "=" + t[1];
-                    str += ", ";
+                    str+= (i == arr.length -1) ? "" : ", ";
                 }
-            }
-            //todo need to change
-            if (i == this.arr.length - 1) {
-                str = str.substring(0, str.length() - 2);
             }
         }
         str += "}";
