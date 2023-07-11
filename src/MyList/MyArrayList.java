@@ -38,7 +38,10 @@ public class MyArrayList<T> implements MyList {
 
     public String toString() {
             String str = "[";
-            for (int i = 0; i < this.size; i++) {
+            if(arr[0] != null){
+                str+=arr[0];
+            }
+            for (int i = 1; i < this.size; i++) {
                 str += ", " + arr[i];
             }
             str += "]";
@@ -147,6 +150,7 @@ public class MyArrayList<T> implements MyList {
     public void clear() {
         size = 0;
         temp = -1;
+        capacity = 8;
         this.arr = (T[]) new Object[capacity];
     }
 
