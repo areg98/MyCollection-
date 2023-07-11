@@ -12,7 +12,7 @@ public class MyArrayList<T> implements MyList {
     private int capacity = 8;
     private int size;
     private int temp;
-    private T[] arr, container;
+    private T[] arr;
     private static final int MAX_ARRAY_SIZE = 67108864;
 
 
@@ -27,16 +27,13 @@ public class MyArrayList<T> implements MyList {
 
     private void newSpace() {
 
-        container = (T[]) new Object[size];
-        for (int i = 0; i < container.length; i++) {
+        capacity*=2;
+        T[] container = (T[]) new Object[capacity];
+
+        for (int i = 0; i < size; i++) {
             container[i] = arr[i];
         }
-        this.arr = (T[]) new Object[capacity * 2];
-        for (int i = 0; i < container.length; i++) {
-            this.arr[i] = this.container[i];
-        }
-        container = null;
-        capacity *= 2;
+        arr = container;
     }
 
     public String toString() {
