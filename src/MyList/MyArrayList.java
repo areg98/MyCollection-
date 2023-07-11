@@ -37,20 +37,12 @@ public class MyArrayList<T> implements MyList {
     }
 
     public String toString() {
-        try {
-            if (this.arr == null) {
-                throw new NullPointerException();
-            }
-            String str = "[" + arr[0];
-            for (int i = 1; i < this.size; i++) {
+            String str = "[";
+            for (int i = 0; i < this.size; i++) {
                 str += ", " + arr[i];
             }
             str += "]";
             return str;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
