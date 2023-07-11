@@ -188,6 +188,9 @@ public class MyArrayList<T> implements MyList {
     public MyList subList(int fromIndex, int toIndex) {
         MyList<T> subList = new MyArrayList();
         try {
+            if (fromIndex < 0 || toIndex >= size){
+                throw new ArrayIndexOutOfBoundsException();
+            }
             for (int i = 0; i <= toIndex - fromIndex; i++) {
                 subList.add(arr[i]);
             }
